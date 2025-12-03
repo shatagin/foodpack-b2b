@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}FoodPack — пищевая упаковка{% endblock %}</title>
+
+    <meta name="description" content="{% block meta_description %}Оптовые поставки пищевой упаковки для HoReCa и производства.{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="logo">
+            <a href="{% url "index" %}">FoodPack</a>
+            <span class="tagline">Оптовая торговля пищевой упаковкой</span>
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="{% url "index" %}#catalog">Каталог</a></li>
+                <li><a href="{% url "index" %}#solutions">Решения</a></li>
+                <li><a href="{% url "index" %}#about">О компании</a></li>
+                <li><a href="{% url "index" %}#contacts">Контакты</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-contacts">
+            <a href="tel:+7XXXXXXXXXX" class="header-phone">+7 (XXX) XXX-XX-XX</a>
+            <a href="{% url "index" %}#request" class="btn btn-outline">Запросить прайс</a>
+        </div>
+    </div>
+</header>
+
+<main class="site-main">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer" id="contacts">
+    <div class="container footer-inner">
+        <div class="footer-col">
+            <div class="logo">FoodPack</div>
+            <p>Оптовая торговля пищевой упаковкой.</p>
+            <p>ООО «FoodPack», ИНН ХХХХХХХХХХ</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Контакты</h4>
+            <p>Телефон: <a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a></p>
+            <p>E-mail: <a href="mailto:info@example.com">info@example.com</a></p>
+            <p>Адрес: г. …, склад №…</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Информация</h4>
+            <ul>
+                <li><a href="#">Политика конфиденциальности</a></li>
+                <li><a href="#">Условия поставки</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

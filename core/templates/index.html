@@ -1,0 +1,190 @@
+{% extends "core/base.html" %}
+
+{% block title %}FoodPack — оптовые поставки пищевой упаковки{% endblock %}
+{% block meta_description %}Оптовые поставки пленки, контейнеров и другой пищевой упаковки с поставками по России.{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <h1>Оптовые поставки пищевой упаковки</h1>
+            <p>Пленка, контейнеры, пакеты и расходные материалы для производства, HoReCa и ритейла.</p>
+
+            <div class="hero-actions">
+                <a href="#request" class="btn btn-primary">Запросить прайс</a>
+                <a href="#catalog" class="btn btn-secondary">Перейти в каталог</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            {% comment %}
+            <!-- <img src="{% static "img/hero-packaging.png" %}" alt="Пищевая упаковка"> -->
+            {% endcomment %}
+        </div>
+    </div>
+</section>
+
+<section class="benefits">
+    <div class="container benefits-inner">
+        <div class="benefit-item">
+            <h3>От оптовых объёмов</h3>
+            <p>Поставки от паллеты, индивидуальные условия для крупных клиентов.</p>
+        </div>
+
+        <div class="benefit-item">
+            <h3>Склад и быстрая отгрузка</h3>
+            <p>Собственный склад, отгрузка в течение 1–2 рабочих дней.</p>
+        </div>
+
+        <div class="benefit-item">
+            <h3>Сертифицированная продукция</h3>
+            <p>Полный комплект документов по запросу.</p>
+        </div>
+
+        <div class="benefit-item">
+            <h3>Подбор под задачу</h3>
+            <p>Рекомендуем решения под ваш производственный процесс.</p>
+        </div>
+    </div>
+</section>
+
+<section class="catalog" id="catalog">
+    <div class="container">
+        <h2>Категории продукции</h2>
+
+        <div class="catalog-grid">
+            <article class="catalog-item">
+                <h3>Пленка</h3>
+                <p>Стрейч, ПВХ, ПЭ пленки для автоматической и ручной упаковки.</p>
+                <a href="#" class="catalog-link">Смотреть категорию</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Контейнеры и лотки</h3>
+                <p>Решения для фасовки и транспортировки готовой продукции.</p>
+                <a href="#" class="catalog-link">Смотреть категорию</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Пакеты и рукава</h3>
+                <p>Упаковочные пакеты, рукава и мешки для разных задач.</p>
+                <a href="#" class="catalog-link">Смотреть категорию</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Специальные решения</h3>
+                <p>Индивидуальные размеры, брендирование упаковки под заказ.</p>
+                <a href="#" class="catalog-link">Смотреть категорию</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="solutions" id="solutions">
+    <div class="container">
+        <h2>Решения для вашего бизнеса</h2>
+
+        <div class="solutions-grid">
+            <article class="solutions-item">
+                <h3>Производители продуктов питания</h3>
+                <p>Упаковка для мясной, молочной, кондитерской и другой продукции.</p>
+            </article>
+
+            <article class="solutions-item">
+                <h3>HoReCa и кейтеринг</h3>
+                <p>Готовые решения для кафе, ресторанов и доставки еды.</p>
+            </article>
+
+            <article class="solutions-item">
+                <h3>Ритейл и склады</h3>
+                <p>Упаковка для логистики, хранения и выкладки товаров.</p>
+            </article>
+
+            <article class="solutions-item">
+                <h3>Логистика и фулфилмент</h3>
+                <p>Материалы для безопасной транспортировки и комплектации заказов.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="process">
+    <div class="container">
+        <h2>Как мы работаем</h2>
+
+        <ol class="process-steps">
+            <li>Вы оставляете заявку или запрашиваете прайс.</li>
+            <li>Мы подбираем решения и согласуем условия.</li>
+            <li>Оформляем договор и принимаем оплату.</li>
+            <li>Отгружаем со склада или организуем доставку.</li>
+        </ol>
+    </div>
+</section>
+
+<section class="about" id="about">
+    <div class="container about-inner">
+        <div class="about-text">
+            <h2>О компании</h2>
+            <p>Мы занимаемся поставками пищевой упаковки для производства, HoReCa и ритейла. Помогаем подобрать решения под технологические процессы и логистику.</p>
+
+            <p>Работаем по договору, предоставляем полный пакет документов и поддерживаем долгосрочные отношения с клиентами.</p>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-item">
+                <div class="stat-value">10+</div>
+                <div class="stat-label">лет на рынке</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">клиентов по России</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">SKU в ассортименте</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="request" id="request">
+    <div class="container request-inner">
+
+        <div class="request-text">
+            <h2>Оставить заявку</h2>
+            <p>Заполните форму, и мы отправим прайс и подберём упаковку под ваши задачи.</p>
+        </div>
+
+        <form method="post" class="request-form">
+            {# csrf_token добавим позже #}
+
+            <div class="form-row">
+                <label>Компания / имя</label>
+                <input type="text" name="name" placeholder="ООО «Пример»">
+            </div>
+
+            <div class="form-row">
+                <label>Телефон</label>
+                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__">
+            </div>
+
+            <div class="form-row">
+                <label>E-mail</label>
+                <input type="email" name="email" placeholder="you@example.com">
+            </div>
+
+            <div class="form-row">
+                <label>Комментарий</label>
+                <textarea name="comment" rows="3" placeholder="Какая упаковка интересует, объёмы, назначение..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}
