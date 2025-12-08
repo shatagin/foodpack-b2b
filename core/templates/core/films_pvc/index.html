@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block title %}Плёнки ПВХ пищевые — FoodPack{% endblock %}
+{% block meta_description %}Ассортимент пищевых ПВХ плёнок: для HoReCa, ручной упаковки, домашнего использования и перемотки.{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Плёнки ПВХ пищевые</h1>
+        <p>Краткое описание линейки плёнок, область применения.</p>
+    </div>
+</section>
+
+<section class="category-list">
+    <div class="container">
+        <ul class="category-cards">
+            <li><a href="{% url "films_pvc_horeca" %}">MC / MB для сектора HoReCa</a></li>
+            <li><a href="{% url "films_pvc_hand_cast" %}">HC CAST для ручной упаковки</a></li>
+            <li><a href="{% url "films_pvc_home" %}">НВ для домашнего пользования</a></li>
+            <li><a href="{% url "films_pvc_jumbo" %}">Jumbo рулоны для перемотки</a></li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

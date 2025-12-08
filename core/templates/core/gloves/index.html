@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block title %}Перчатки одноразовые — FoodPack{% endblock %}
+{% block meta_description %}Ассортимент одноразовых перчаток для пищевой промышленности и HoReCa.{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Перчатки одноразовые</h1>
+        <p>Перчатки для работы с пищевой продукцией, клининга и санитарной обработки.</p>
+    </div>
+</section>
+
+<section class="category-list">
+    <div class="container">
+        <ul class="category-cards">
+            <li><a href="{% url "gloves_pe" %}">Перчатки ПЭ</a></li>
+            <li><a href="{% url "gloves_vinyl" %}">Виниловые перчатки</a></li>
+        </ul>
+    </div>
+</section>
+{% endblock %}
