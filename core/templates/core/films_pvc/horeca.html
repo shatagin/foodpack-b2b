@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% block title %}Плёнка ПВХ MC / MB для HoReCa — FoodPack{% endblock %}
+{% block meta_description %}Пищевая плёнка ПВХ MC / MB для профессиональной кухни и сегмента HoReCa.{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url 'films_pvc' %}">Плёнки ПВХ пищевые</a> &nbsp;/&nbsp;
+            <span>MC / MB для сектора HoReCa</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>MC / MB для сектора HoReCa</h1>
+            <p>Пищевая ПВХ-плёнка для упаковки готовых блюд, полуфабрикатов и свежих продуктов в ресторанах, кафе и кейтеринге.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <div class="product-summary">
+                    <h2>Область применения</h2>
+                    <p>Используется на профессиональной кухне для упаковки гастроёмкостей, лотков, подносов, порционных и порезанных продуктов.</p>
+                </div>
+
+                <h2>Примерные характеристики</h2>
+                <ul class="product-specs">
+                    <li>Толщина: по запросу (типичный диапазон 8–12 мкм)</li>
+                    <li>Ширина рулона: варианты под оборудование и ручную работу</li>
+                    <li>Совместимость с оборудованием HoReCa</li>
+                </ul>
+
+                <p class="product-note">
+                    Конкретные параметры (толщина, ширина, намотка, тип основы) согласуются индивидуально под оборудование и задачи клиента.
+                </p>
+            </div>
+
+            <aside class="product-side">
+                <h3>Запросить расчёт</h3>
+                <p>Оставьте заявку, и мы предложим решение под ваши объёмы и формат работы.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Оставить заявку</a>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

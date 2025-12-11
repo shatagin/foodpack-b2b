@@ -1,0 +1,41 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ product.name }} — {{ category.name }} — FoodPack{% endblock %}
+{% block meta_description %}{{ product.lead|default:category.short_description|default:"Оптовая поставка упаковочных материалов." }}{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a> &nbsp;/&nbsp;
+            <span>{{ product.name }}</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>{{ product.name }}</h1>
+            {% if product.lead %}
+                <p>{{ product.lead }}</p>
+            {% endif %}
+        </header>
+
+        <div class="page-grid">
+            <div>
+                {% if product.description %}
+                    <div class="product-description">
+                        {{ product.description|linebreaks }}
+                    </div>
+                {% else %}
+                    <p>Подробные характеристики и спецификация предоставляются по запросу.</p>
+                {% endif %}
+            </div>
+
+        <aside class="product-side">
+            <h3>Уточнить параметры</h3>
+            <p>Укажите предполагаемые объёмы, тип продукции и формат упаковки — подготовим предложение.</p>
+            <a href="{% url 'index' %}#request" class="btn btn-primary">Отправить запрос</a>
+        </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

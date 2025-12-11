@@ -1,22 +1,36 @@
 {% extends "core/base.html" %}
 
 {% block title %}Перчатки одноразовые — FoodPack{% endblock %}
-{% block meta_description %}Ассортимент одноразовых перчаток для пищевой промышленности и HoReCa.{% endblock %}
+{% block meta_description %}Одноразовые перчатки для пищевого производства, торговли и HoReCa.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>Перчатки одноразовые</h1>
-        <p>Перчатки для работы с пищевой продукцией, клининга и санитарной обработки.</p>
-    </div>
-</section>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <span>Перчатки одноразовые</span>
+        </nav>
 
-<section class="category-list">
-    <div class="container">
-        <ul class="category-cards">
-            <li><a href="{% url "gloves_pe" %}">Перчатки ПЭ</a></li>
-            <li><a href="{% url "gloves_vinyl" %}">Виниловые перчатки</a></li>
-        </ul>
+        <header class="page-header">
+            <h1>Перчатки одноразовые</h1>
+            <p>Перчатки для работы с пищевой продукцией, клининга и санитарной обработки.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <h2>Ассортимент</h2>
+                <ul class="product-specs">
+                    <li><a href="{% url 'gloves_pe' %}">Перчатки ПЭ</a></li>
+                    <li><a href="{% url 'gloves_vinyl' %}">Виниловые перчатки</a></li>
+                </ul>
+            </div>
+
+            <aside class="product-side">
+                <h3>Подбор по задачам</h3>
+                <p>Поможем подобрать перчатки с учётом характера работ, требований по безопасности и бюджету.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Оставить запрос</a>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

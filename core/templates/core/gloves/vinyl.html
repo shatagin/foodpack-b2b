@@ -1,13 +1,34 @@
 {% extends "core/base.html" %}
 
 {% block title %}Виниловые перчатки — FoodPack{% endblock %}
-{% block meta_description %}Виниловые перчатки для работы с пищевой продукцией и в сопутствующих процессах.{% endblock %}
+{% block meta_description %}Виниловые перчатки для персонала, работающего с продуктами питания.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>Виниловые перчатки</h1>
-        <p>Перчатки с комфортной посадкой для персонала, работающего с продуктами питания и сопутствующими материалами.</p>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url 'gloves' %}">Перчатки одноразовые</a> &nbsp;/&nbsp;
+            <span>Виниловые перчатки</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>Виниловые перчатки</h1>
+            <p>Перчатки с комфортной посадкой для персонала на пищевом производстве, в HoReCa и торговле.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <h2>Особенности</h2>
+                <p>Обеспечивают комфорт при длительном использовании, подходят для контакта с пищевой продукцией (при наличии соответствующих сертификатов).</p>
+            </div>
+
+            <aside class="product-side">
+                <h3>Уточнить наличие</h3>
+                <p>Сроки поставки и доступные размеры можно уточнить у менеджера.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Связаться с менеджером</a>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

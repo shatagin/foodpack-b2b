@@ -1,13 +1,22 @@
 {% extends "core/base.html" %}
 
 {% block title %}О компании — FoodPack{% endblock %}
-{% block meta_description %}Информация о компании FoodPack, оптовые поставки пищевой упаковки.{% endblock %}
+{% block meta_description %}Информация о компании FoodPack, специализация и принципы работы.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>О компании</h1>
-        <p>Короткий текст о том, чем занимается компания и какие задачи решает.</p>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <span>О компании</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>О компании</h1>
+            <p>Мы занимаемся поставками пищевой упаковки для производства, HoReCa и ритейла.</p>
+        </header>
+
+        <p>Краткий текст о компании — миссия, опыт работы, основные направления, принципы взаимодействия с клиентами.</p>
     </div>
 </section>
 {% endblock %}

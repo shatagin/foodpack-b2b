@@ -1,24 +1,44 @@
 {% extends "core/base.html" %}
 
 {% block title %}Плёнки ПВХ пищевые — FoodPack{% endblock %}
-{% block meta_description %}Ассортимент пищевых ПВХ плёнок: для HoReCa, ручной упаковки, домашнего использования и перемотки.{% endblock %}
+{% block meta_description %}Ассортимент пищевых ПВХ плёнок для производства, HoReCa и розничной торговли.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>Плёнки ПВХ пищевые</h1>
-        <p>Краткое описание линейки плёнок, область применения.</p>
-    </div>
-</section>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <span>Плёнки ПВХ пищевые</span>
+        </nav>
 
-<section class="category-list">
-    <div class="container">
-        <ul class="category-cards">
-            <li><a href="{% url "films_pvc_horeca" %}">MC / MB для сектора HoReCa</a></li>
-            <li><a href="{% url "films_pvc_hand_cast" %}">HC CAST для ручной упаковки</a></li>
-            <li><a href="{% url "films_pvc_home" %}">НВ для домашнего пользования</a></li>
-            <li><a href="{% url "films_pvc_jumbo" %}">Jumbo рулоны для перемотки</a></li>
-        </ul>
+        <header class="page-header">
+            <h1>Плёнки ПВХ пищевые</h1>
+            <p>Линейка пищевых ПВХ плёнок для упаковки свежих продуктов, готовых блюд и полуфабрикатов.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <div class="product-summary">
+                    <h2>Основные направления применения</h2>
+                    <p>Плёнки подходят для фасовки мясной и мясоперерабатывающей продукции, сыра, овощей, фруктов, кондитерских изделий и готовых блюд.</p>
+                </div>
+
+                <h2>Подкатегории</h2>
+                <ul class="product-specs">
+                    <li><a href="{% url 'films_pvc_horeca' %}">MC / MB для сектора HoReCa</a></li>
+                    <li><a href="{% url 'films_pvc_hand_cast' %}">HC CAST для ручной упаковки</a></li>
+                    <li><a href="{% url 'films_pvc_home' %}">HB для домашнего пользования</a></li>
+                    <li><a href="{% url 'films_pvc_jumbo' %}">Jumbo рулоны для перемотки</a></li>
+                </ul>
+            </div>
+
+            <aside class="product-side">
+                <h3>Запросить спецификацию</h3>
+                <p>Отправьте запрос, и мы подберём плёнку по вашим параметрам: толщина, ширина, тип продукции и формат упаковки.</p>
+                <p><strong>E-mail:</strong> <a href="mailto:info@example.com">info@example.com</a></p>
+                <p><strong>Телефон:</strong> <a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a></p>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

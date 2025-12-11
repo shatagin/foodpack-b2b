@@ -1,13 +1,35 @@
 {% extends "core/base.html" %}
 
 {% block title %}Контакты — FoodPack{% endblock %}
-{% block meta_description %}Контактные данные компании FoodPack: адрес, телефон, e-mail.{% endblock %}
+{% block meta_description %}Контактная информация компании FoodPack: адрес, телефон, e-mail.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>Контакты</h1>
-        <p>Как с нами связаться и как до нас добраться.</p>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <span>Контакты</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>Контакты</h1>
+            <p>Как с нами связаться и как до нас добраться.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <h2>Реквизиты и связь</h2>
+                <p><strong>Телефон:</strong> <a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a></p>
+                <p><strong>E-mail:</strong> <a href="mailto:info@example.com">info@example.com</a></p>
+                <p><strong>Адрес:</strong> г. …, склад №…</p>
+            </div>
+
+            <aside class="product-side">
+                <h3>Отправить запрос</h3>
+                <p>Вы можете сразу отправить запрос через форму на главной странице — мы свяжемся с вами и уточним детали.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Перейти к форме</a>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

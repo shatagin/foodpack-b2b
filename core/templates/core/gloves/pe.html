@@ -1,13 +1,34 @@
 {% extends "core/base.html" %}
 
 {% block title %}Перчатки ПЭ одноразовые — FoodPack{% endblock %}
-{% block meta_description %}Полиэтиленовые одноразовые перчатки для пищевого производства и торговли.{% endblock %}
+{% block meta_description %}Полиэтиленовые одноразовые перчатки для пищевой промышленности и торговли.{% endblock %}
 
 {% block content %}
-<section class="page-header">
+<section class="page">
     <div class="container">
-        <h1>Перчатки ПЭ</h1>
-        <p>Лёгкие полиэтиленовые перчатки для использования в магазинах, кулинариях, на производстве и в HoReCa.</p>
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url 'gloves' %}">Перчатки одноразовые</a> &nbsp;/&nbsp;
+            <span>Перчатки ПЭ</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>Перчатки ПЭ</h1>
+            <p>Лёгкие полиэтиленовые перчатки для магазинов, кулинарий, линий раздачи и фасовки.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <h2>Применение</h2>
+                <p>Используются при работе с готовыми и свежими продуктами, где требуется базовая защита и соблюдение гигиены.</p>
+            </div>
+
+            <aside class="product-side">
+                <h3>Условия поставки</h3>
+                <p>Минимальная партия, упаковка и форматы согласуются при оформлении заявки.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Запросить условия</a>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

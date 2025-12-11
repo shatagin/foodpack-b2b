@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+
+{% block title %}HC CAST для ручной упаковки — FoodPack{% endblock %}
+{% block meta_description %}Пищевая ПВХ-плёнка HC CAST для ручной упаковки продуктов на витринах и в кулинарии.{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url 'films_pvc' %}">Плёнки ПВХ пищевые</a> &nbsp;/&nbsp;
+            <span>HC CAST для ручной упаковки</span>
+        </nav>
+
+        <header class="page-header">
+            <h1>HC CAST для ручной упаковки</h1>
+            <p>Плёнка для ручной упаковки в магазинах, на производстве и в сегменте HoReCa: витрины, кулинария, фасовка.</p>
+        </header>
+
+        <div class="page-grid">
+            <div>
+                <div class="product-summary">
+                    <h2>Особенности</h2>
+                    <p>Предназначена для работы на ручных диспенсерах и на небольших упаковочных постах, где важна скорость и удобство обслуживания.</p>
+                </div>
+
+                <h2>Примерные характеристики</h2>
+                <ul class="product-specs">
+                    <li>Размотка, адаптированная под ручные держатели</li>
+                    <li>Хорошая прозрачность и блеск</li>
+                    <li>Надёжное прилигание к подложке</li>
+                </ul>
+            </div>
+
+            <aside class="product-side">
+                <h3>Получить прайс</h3>
+                <p>Уточните объёмы и формат работы — подберём оптимальный вариант по цене и характеристикам.</p>
+                <a href="{% url 'index' %}#request" class="btn btn-primary">Запросить прайс</a>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
