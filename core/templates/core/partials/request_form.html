@@ -1,0 +1,25 @@
+<form method="post" class="request-form">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <label for="id_name">Компания / имя</label>
+        {{ form.name }}
+    </div>
+
+    <div class="form-row">
+        <label for="id_phone">Телефон</label>
+        {{ form.phone }}
+    </div>
+
+    <div class="form-row">
+        <label for="id_email">E-mail</label>
+        {{ form.email }}
+    </div>
+
+    <div class="form-row">
+        <label for="id_comment">Комментарий</label>
+        {{ form.comment }}
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Отправить заявку</button>
+</form>

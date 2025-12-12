@@ -51,3 +51,50 @@ class Product(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse('product_detail', args=[self.category.slug, self.slug])
+
+
+class Request(models.Model):
+    STATUS_NEW = 'new'
+    STATUS_IN_PROGRESS = 'in_progress'
+    STATUS_DONE = 'done'
+
+    STATUS_CHOICES = [
+        (STATUS_NEW, 'Новая'),
+        (STATUS_IN_PROGRESS, 'В работе'),
+        (STATUS_DONE, 'Закрыта'),
+    ]
+
+    name = models.CharField('Компания / имя', max_length=255)
+    phone = models.CharField('Телефон', max_length=50)
+    email = models.EmailField('E-mail', blank=True)
+    comment = models.TextField('Комментарий', blank=True)
+
+    category = models.ForeignKey(
+        'Category',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Категория',
+    )
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Товар',
+    )
+
+    source_url = models.URLField('Страница', blank=True)
+    status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)
+
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
+        ordering = ['-created_at']
+
+    def __str__(self) -> str:
+        return f'Заявка #{self.id} — {self.name}'

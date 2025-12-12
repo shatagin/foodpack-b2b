@@ -105,30 +105,11 @@
 
 <section class="request" id="request">
     <div class="container request-inner">
-     <form method="post" class="request-form">
-            {# csrf_token добавим позже #}
+        <div class="request-text">
+            <h2>Оставить заявку</h2>
+        </div>
 
-            <div class="form-row">
-                <label>Компания / имя</label>
-                <input type="text" name="name" placeholder="Название вашей организации и имя">
-            </div>
-
-            <div class="form-row">
-                <label>Телефон</label>
-                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__">
-            </div>
-
-            <div class="form-row">
-                <label>E-mail</label>
-                <input type="email" name="email" placeholder="you@vashsite.ru">
-            </div>
-
-            <div class="form-row">
-                <label>Комментарий</label>
-                <textarea name="comment" rows="3" placeholder="Введите текст запроса: вид упаковки, объёмы."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Отправить заявку</button>
-        </form>
+        {% include "core/partials/request_form.html" %}
     </div>
 </section>
 {% endblock %}
