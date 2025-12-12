@@ -18,7 +18,6 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self) -> str:
-        # /films-pvc/, /gloves/, /komus-packaging/
         return reverse('category_detail', args=[self.slug])
 
 
@@ -33,6 +32,12 @@ class Product(models.Model):
     slug = models.SlugField('Слаг (URL)', unique=True)
     lead = models.TextField('Краткое описание', blank=True)
     description = models.TextField('Описание', blank=True)
+    image = models.ImageField(
+        'Фото',
+        upload_to='products/',
+        blank=True,
+        null=True,
+    )
     is_active = models.BooleanField('Активен', default=True)
     sort_order = models.PositiveIntegerField('Порядок сортировки', default=0)
 
@@ -45,5 +50,4 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self) -> str:
-        # /films-pvc/mc-mb-horeca/, /gloves/pe-gloves/ и т.п.
         return reverse('product_detail', args=[self.category.slug, self.slug])

@@ -5,5 +5,3 @@ django-environ>=0.11.2
 
 
 Pillow>=10.0
-
-
