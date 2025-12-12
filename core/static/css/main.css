@@ -934,3 +934,140 @@ footer a {
 .nav-item.dropdown:focus-within > .dropdown-menu {
     display: block !important;
 }
+
+
+/* Кнопка переключателя в шапке */
+.a11y-toggle {
+    border: 2px solid #003A9E;
+    background: #FFFFFF;
+    color: #003A9E;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.a11y-toggle:focus {
+    outline: 3px solid #FFD800;
+    outline-offset: 2px;
+}
+
+/* версия для слабовидящих */
+body.a11y {
+    background: #FFFFFF;
+    color: #000000;
+    font-size: 20px;
+    line-height: 1.9;
+}
+
+body.a11y * {
+    background-color: transparent;
+    color: #000000;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.a11y a {
+    color: #003A9E;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+}
+
+body.a11y a:hover {
+    color: #0055FF;
+}
+
+body.a11y :focus {
+    outline: 4px solid #FFD800;
+    outline-offset: 4px;
+}
+
+body.a11y header,
+body.a11y footer,
+body.a11y section,
+body.a11y nav,
+body.a11y article,
+body.a11y aside,
+body.a11y .container {
+    background: #FFFFFF;
+}
+
+body.a11y h1,
+body.a11y h2,
+body.a11y h3,
+body.a11y h4,
+body.a11y h5,
+body.a11y h6 {
+    color: #000000;
+    font-weight: 800;
+}
+
+body.a11y .btn,
+body.a11y button {
+    background: #003A9E;
+    color: #FFFFFF;
+    border: 3px solid #003A9E;
+    font-size: 20px;
+    padding: 14px 18px;
+}
+
+body.a11y .btn:hover,
+body.a11y button:hover {
+    background: #0055FF;
+    border-color: #0055FF;
+}
+
+body.a11y .btn-outline {
+    background: #FFFFFF;
+    color: #003A9E;
+    border: 3px solid #003A9E;
+}
+
+body.a11y input,
+body.a11y textarea,
+body.a11y select {
+    background: #FFFFFF;
+    color: #000000;
+    border: 3px solid #000000;
+    font-size: 20px;
+    padding: 14px;
+}
+
+body.a11y ::placeholder {
+    color: #000000;
+    opacity: 1;
+}
+
+body.a11y .error,
+body.a11y .form-error {
+    color: #D50000;
+    font-weight: 700;
+}
+
+body.a11y .success,
+body.a11y .form-success {
+    color: #009B2A;
+    font-weight: 700;
+}
+
+body.a11y .product-card,
+body.a11y .product-side,
+body.a11y .catalog-item,
+body.a11y .benefit-item {
+    border: 3px solid #000000;
+    padding: 16px;
+}
+
+body.a11y img {
+    filter: grayscale(100%);
+}
+
+body.a11y .a11y-toggle {
+    background: #FFD800;
+    color: #000000;
+    border: 3px solid #000000;
+    font-size: 18px;
+    font-weight: 700;
+}

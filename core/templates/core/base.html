@@ -48,7 +48,11 @@
 
     </ul>
 </nav>
-
+<div class="header-actions">
+    <button type="button" class="a11y-toggle" id="a11yToggle" aria-pressed="false">
+        Версия для слабовидящих
+    </button>
+</div>
         <div class="header-contacts">
             <a href="tel:+7XXXXXXXXXX" class="header-phone">+7 (XXX) XXX-XX-XX</a>
         </div>
@@ -86,5 +90,28 @@
 </footer>
 
 {% block extra_js %}{% endblock %}
+<script>
+(function () {
+    var key = 'a11y_mode';
+    var btn = document.getElementById('a11yToggle');
+    if (!btn) return;
+
+    function apply(isOn) {
+        document.body.classList.toggle('a11y', isOn);
+        btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+        btn.textContent = isOn ? 'Обычная версия' : 'Версия для слабовидящих';
+    }
+
+    var saved = localStorage.getItem(key);
+    var isOn = saved === '1';
+    apply(isOn);
+
+    btn.addEventListener('click', function () {
+        isOn = !isOn;
+        localStorage.setItem(key, isOn ? '1' : '0');
+        apply(isOn);
+    });
+})();
+</script>
 </body>
 </html>
