@@ -13,7 +13,7 @@
 
         <header class="page-header">
             <h1>Контакты</h1>
-            <p>Как с нами связаться и как до нас добраться.</p>
+            <p>Контактная информация.</p>
         </header>
 
         <div class="page-grid">
@@ -23,12 +23,39 @@
                 <p><strong>E-mail:</strong> <a href="mailto:info@example.com">info@example.com</a></p>
                 <p><strong>Адрес:</strong> г. …, склад №…</p>
             </div>
-
             <aside class="product-side">
-                <h3>Отправить запрос</h3>
-                <p>Вы можете сразу отправить запрос через форму на главной странице — мы свяжемся с вами и уточним детали.</p>
-                <a href="{% url 'index' %}#request" class="btn btn-primary">Перейти к форме</a>
-            </aside>
+    <h3>Запросить цену</h3>
+    <p>Оставьте заявку и мы Вам перезвоним.</p>
+
+    <form method="post" class="product-request-form">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <label for="id_name">Компания / имя</label>
+            <input type="text" id="id_name" name="name" placeholder="Название вашей организации и имя" required>
+        </div>
+
+        <div class="form-row">
+            <label for="id_phone">Телефон</label>
+            <input type="tel" id="id_phone" name="phone" placeholder="+7 (___) ___-__-__" required>
+        </div>
+
+        <div class="form-row">
+            <label for="id_email">E-mail</label>
+            <input type="email" id="id_email" name="email" placeholder="you@vashsite.ru">
+        </div>
+
+        <div class="form-row">
+            <label for="id_comment">Комментарий</label>
+            <textarea id="id_comment" name="comment" rows="3"
+                      placeholder="Введите текст запроса: вид продукции, объёмы"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+            Отправить
+        </button>
+    </form>
+</aside>
         </div>
     </div>
 </section>

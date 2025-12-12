@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block title %}Страница не найдена — FoodPack{% endblock %}
+
+{% block content %}
+<section class="error-page">
+    <div class="container error-inner">
+
+        <h1>Страница не найдена</h1>
+        <p>
+            Возможно, страница была удалена или перемещена.
+        </p>
+
+        <div class="error-actions">
+            <a href="{% url "index" %}" class="btn btn-primary">
+                Вернуться на главную
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

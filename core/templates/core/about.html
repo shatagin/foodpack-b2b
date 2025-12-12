@@ -1,22 +1,134 @@
 {% extends "core/base.html" %}
 
 {% block title %}О компании — FoodPack{% endblock %}
-{% block meta_description %}Информация о компании FoodPack, специализация и принципы работы.{% endblock %}
+{% block meta_description %}FoodPack — оптовые поставщик пищевой упаковки для производства, HoReCa и ритейла. Склад, подбор решений, документы, отгрузка по России.{% endblock %}
 
 {% block content %}
-<section class="page">
+<section class="page-hero">
     <div class="container">
         <nav class="breadcrumbs">
-            <a href="{% url 'index' %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url "index" %}">Главная</a> &nbsp;/&nbsp;
             <span>О компании</span>
         </nav>
 
-        <header class="page-header">
-            <h1>О компании</h1>
-            <p>Мы занимаемся поставками пищевой упаковки для производства, HoReCa и ритейла.</p>
-        </header>
+        <div class="page-hero-inner">
+            <div class="page-hero-text">
+                <h1>FoodPack — оптовый поставщик пищевой упаковки</h1>
+                <p class="lead">Мы поставляем пленку, контейнеры, пакеты и расходные материалы для производства, HoReCa и ритейла.</p>
 
-        <p>Краткий текст о компании — миссия, опыт работы, основные направления, принципы взаимодействия с клиентами.</p>
+                <div class="hero-actions">
+                    <a href="#request" class="btn btn-primary">Запросить цену</a>
+                    <a href="#catalog" class="btn btn-secondary">Перейти в каталог</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <div class="two-col">
+            <div>
+                <h2>О компании</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            </div>
+            <br>
+            <br>
+            <div class="container benefits-inner">
+        <div class="benefit-item">
+            <div class="benefit-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </div>
+            <h3>Индивидуальные условия</h3>
+            <p>Поставки от паллеты, индивидуальные условия для крупных клиентов.</p>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <h3>Отгрузка с собственного склада</h3>
+            <p>Собственный склад, отгрузка до 5 рабочих дней.</p>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h3>Сертифицированная продукция</h3>
+            <p>Полный комплект документов по запросу.</p>
+        </div>
+
+        <div class="benefit-item">
+            <div class="benefit-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-crosshair"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+            </div>
+            <h3>Подбор под задачу</h3>
+            <p>Рекомендуем решения под ваш производственный процесс.</p>
+        </div>
+    </div>
+        </div>
+    </div>
+</section>
+<section class="catalog" id="catalog">
+    <div class="container">
+        <h2>Категории продукции</h2>
+
+        <div class="catalog-grid">
+            <article class="catalog-item">
+                <h3>Пленка</h3>
+                <p>Стрейч, ПВХ и ПЭ пленки.</p>
+                <a href="/films-pvc/" class="catalog-link">Перейти</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Перчатки</h3>
+                <p>Виниловые и перчатки ПЭ.</p>
+                <a href="/gloves/" class="catalog-link">Перейти</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Упаковка Комус</h3>
+                <p>Контейнеры, крышки и лотки.</p>
+                <a href="/komus-packaging/" class="catalog-link">Перейти</a>
+            </article>
+
+            <article class="catalog-item">
+                <h3>Плёнка HoReCa</h3>
+                <p>Плёнка для категории HoReCa.</p>
+                <a href="/films-pvc/mc-mb-horeca/" class="catalog-link">Перейти</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="request" id="request">
+    <div class="container request-inner">
+     <form method="post" class="request-form">
+            {# csrf_token добавим позже #}
+
+            <div class="form-row">
+                <label>Компания / имя</label>
+                <input type="text" name="name" placeholder="Название вашей организации и имя">
+            </div>
+
+            <div class="form-row">
+                <label>Телефон</label>
+                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__">
+            </div>
+
+            <div class="form-row">
+                <label>E-mail</label>
+                <input type="email" name="email" placeholder="you@vashsite.ru">
+            </div>
+
+            <div class="form-row">
+                <label>Комментарий</label>
+                <textarea name="comment" rows="3" placeholder="Введите текст запроса: вид упаковки, объёмы."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </form>
     </div>
 </section>
 {% endblock %}
