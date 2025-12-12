@@ -20,15 +20,34 @@
             <a href="{% url "index" %}">FoodPack</a>
             <span class="tagline">Оптовая торговля пищевой упаковкой</span>
         </div>
-
         <nav class="main-nav">
-            <ul>
-                <li><a href="{% url "index" %}#catalog">Каталог</a></li>
-                <li><a href="{% url "index" %}#solutions">Решения</a></li>
-                <li><a href="/about">О компании</a></li>
-                <li><a href="/contacts">Контакты</a></li>
+    <ul class="nav-list">
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle">
+                Каталог
+            </a>
+            <ul class="dropdown-menu">
+                {% for category in menu_categories %}
+                    <li>
+                        <a href="{{ category.get_absolute_url }}">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
-        </nav>
+        </li>
+        <li class="nav-item">
+            <a href="#solutions">Решения</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'about' %}">О компании</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'contacts' %}">Контакты</a>
+        </li>
+
+    </ul>
+</nav>
 
         <div class="header-contacts">
             <a href="tel:+7XXXXXXXXXX" class="header-phone">+7 (XXX) XXX-XX-XX</a>
