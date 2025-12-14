@@ -47,7 +47,6 @@
         <li class="nav-item">
             <a href="{% url 'contacts' %}">Контакты</a>
         </li>
-
     </ul>
 </nav>
         <form method="get" action="{% url "search" %}" class="header-search">
@@ -55,14 +54,14 @@
 </form>
 <div class="header-actions">
     <button type="button" class="a11y-toggle" id="a11yToggle" aria-pressed="false">
-        Версия для слабовидящих
-    </button>
+        Для слабовидящих</button>
 </div>
         <div class="header-contacts">
             <a href="tel:+7XXXXXXXXXX" class="header-phone">+7 (XXX) XXX-XX-XX</a>
         </div>
     </div>
 </header>
+
 
 <main class="site-main">
     {% block content %}{% endblock %}
@@ -88,6 +87,7 @@
             <ul>
                 <li><a href="#">Политика конфиденциальности</a></li>
                 <li><a href="#">Условия поставки</a></li>
+                 <li><a href="/news">Новости</a></li>
                 <li><a href="/sitemap">Карта сайта</a></li>
             </ul>
         </div>
@@ -104,7 +104,7 @@
     function apply(isOn) {
         document.body.classList.toggle('a11y', isOn);
         btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
-        btn.textContent = isOn ? 'Обычная версия' : 'Версия для слабовидящих';
+        btn.textContent = isOn ? 'Обычная версия' : 'Для слабовидящих';
     }
 
     var saved = localStorage.getItem(key);
