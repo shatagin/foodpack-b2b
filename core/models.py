@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -98,3 +99,31 @@ class Request(models.Model):
 
     def __str__(self) -> str:
         return f'Заявка #{self.id} — {self.name}'
+
+
+class NewsPost(models.Model):
+    title = models.CharField('Заголовок', max_length=255)
+    slug = models.SlugField('Slug', max_length=255, unique=True, blank=True)
+    excerpt = models.TextField('Кратко', blank=True)
+    body = models.TextField('Текст', blank=True)
+
+    is_published = models.BooleanField('Опубликовано', default=True)
+    published_at = models.DateTimeField('Дата публикации', auto_now_add=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ['-published_at']
+
+    def __str__(self) -> str:
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)[:255]
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return f'/news/{self.slug}/'

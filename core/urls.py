@@ -17,6 +17,10 @@ urlpatterns = [
     path('contacts/', views.contacts, name='contacts'),
     path('sitemap/', views.sitemap, name='sitemap'),
 
+    # Новости
+    path('news/', views.news_list, name='news_list'),
+    path('news/<slug:slug>/', views.news_detail, name='news_detail'),
+
     # Каталог: категории и товары
     path('<slug:category_slug>/', views.category_detail, name='category_detail'),
     path(

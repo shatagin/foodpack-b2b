@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product
+from .models import Category, Product, NewsPost
 from .forms import RequestForm
 
 
@@ -121,3 +121,12 @@ def category_detail(request, category_slug: str):
     }
     return render(request, 'core/category_detail.html', context)
 
+
+def news_list(request):
+    posts = NewsPost.objects.filter(is_published=True)
+    return render(request, 'core/news_list.html', {'posts': posts})
+
+
+def news_detail(request, slug: str):
+    post = get_object_or_404(NewsPost, slug=slug, is_published=True)
+    return render(request, 'core/news_detail.html', {'post': post})

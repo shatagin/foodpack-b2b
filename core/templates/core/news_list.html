@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block title %}Новости — FoodPack{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <h1>Новости</h1>
+
+        {% if posts %}
+            <div class="news-grid">
+                {% for post in posts %}
+                    <article class="news-card">
+                        <h2 class="news-title">
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </h2>
+                        <div class="news-meta">{{ post.published_at|date:"d.m.Y" }}</div>
+
+                        {% if post.excerpt %}
+                            <p class="news-excerpt">{{ post.excerpt }}</p>
+                        {% endif %}
+
+                        <a class="news-link" href="{{ post.get_absolute_url }}">Читать</a>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Пока нет опубликованных новостей.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

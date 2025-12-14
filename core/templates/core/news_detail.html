@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ post.title }} — FoodPack{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <nav class="breadcrumbs">
+            <a href="{% url "index" %}">Главная</a> &nbsp;/&nbsp;
+            <a href="{% url "news_list" %}">Новости</a> &nbsp;/&nbsp;
+            <span>{{ post.title }}</span>
+        </nav>
+
+        <article class="news-detail">
+            <h1>{{ post.title }}</h1>
+            <div class="news-meta">{{ post.published_at|date:"d.m.Y" }}</div>
+
+            {% if post.excerpt %}
+                <p class="lead">{{ post.excerpt }}</p>
+            {% endif %}
+
+            <div class="news-body">
+                {{ post.body|linebreaks }}
+            </div>
+
+            <div style="margin-top: 24px;">
+                <a href="{% url "news_list" %}" class="btn btn-outline">К списку новостей</a>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

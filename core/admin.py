@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Request
+from .models import Category, Product, Request, NewsPost
 
 
 @admin.register(Category)
@@ -26,3 +26,11 @@ class RequestAdmin(admin.ModelAdmin):
     search_fields = ('name', 'phone', 'email', 'comment')
     readonly_fields = ('created_at', 'source_url')
     ordering = ('-created_at',)
+
+
+@admin.register(NewsPost)
+class NewsPostAdmin(admin.ModelAdmin):
+    list_display = ('id', 'published_at', 'is_published', 'title')
+    list_filter = ('is_published', 'published_at')
+    search_fields = ('title', 'excerpt', 'body')
+    prepopulated_fields = {'slug': ('title',)}
