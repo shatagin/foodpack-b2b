@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, NewsPost
 from .forms import RequestForm
+from django.db.models import Q
 
 
 def index(request):
@@ -130,3 +131,41 @@ def news_list(request):
 def news_detail(request, slug: str):
     post = get_object_or_404(NewsPost, slug=slug, is_published=True)
     return render(request, 'core/news_detail.html', {'post': post})
+
+
+def search(request):
+    q = (request.GET.get('q') or '').strip()
+
+    products = Product.objects.none()
+    news = NewsPost.objects.none()
+
+    if q:
+        products = (
+            Product.objects
+            .filter(is_active=True)
+            .filter(
+                Q(name__icontains=q) |
+                Q(lead__icontains=q) |
+                Q(description__icontains=q)
+            )
+            .select_related('category')
+            .order_by('name')
+        )
+
+        news = (
+            NewsPost.objects
+            .filter(is_published=True)
+            .filter(
+                Q(title__icontains=q) |
+                Q(excerpt__icontains=q) |
+                Q(body__icontains=q)
+            )
+            .order_by('-published_at')
+        )
+
+    context = {
+        'q': q,
+        'products': products,
+        'news': news,
+    }
+    return render(request, 'core/search.html', context)

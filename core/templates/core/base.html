@@ -50,6 +50,9 @@
 
     </ul>
 </nav>
+        <form method="get" action="{% url "search" %}" class="header-search">
+    <input type="text" name="q" placeholder="Поиск..." class="header-search-input">
+</form>
 <div class="header-actions">
     <button type="button" class="a11y-toggle" id="a11yToggle" aria-pressed="false">
         Версия для слабовидящих

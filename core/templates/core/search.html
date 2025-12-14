@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+
+{% block title %}Поиск — FoodPack{% endblock %}
+{% block meta_description %}Поиск по сайту.{% endblock %}
+
+{% block content %}
+<section class="page">
+    <div class="container">
+        <h1>Поиск</h1>
+
+        <form method="get" action="{% url "search" %}" class="search-form">
+            <div class="search-row">
+                <input type="text" name="q" value="{{ q }}" placeholder="Введите запрос" class="search-input">
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </div>
+        </form>
+
+        {% if q %}
+            <div class="search-summary">
+                Запрос: <strong>{{ q }}</strong>
+            </div>
+
+            <div class="search-results">
+                <div class="search-block">
+                    <h2>Товары</h2>
+
+                    {% if products %}
+                        <div class="product-grid">
+                            {% for product in products %}
+                                <article class="product-card">
+                                    <a href="{{ product.get_absolute_url }}" class="product-card-image-wrap">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-image">
+                                        {% endif %}
+                                    </a>
+                                    <div class="product-card-body">
+                                        <h3 class="product-card-title">
+                                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                                        </h3>
+                                        <div class="search-muted">
+                                            Категория: <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>
+                                        </div>
+                                        {% if product.lead %}
+                                            <p class="product-card-lead">{{ product.lead }}</p>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Товары не найдены.</p>
+                    {% endif %}
+                </div>
+
+                <div class="search-block">
+                    <h2>Новости</h2>
+
+                    {% if news %}
+                        <div class="news-grid">
+                            {% for post in news %}
+                                <article class="news-card">
+                                    <h3 class="news-title">
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                    </h3>
+                                    <div class="news-meta">{{ post.published_at|date:"d.m.Y" }}</div>
+                                    {% if post.excerpt %}
+                                        <p class="news-excerpt">{{ post.excerpt }}</p>
+                                    {% endif %}
+                                    <a class="news-link" href="{{ post.get_absolute_url }}">Читать</a>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Новости не найдены.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p>Введите запрос.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
