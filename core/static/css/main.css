@@ -1,6 +1,8 @@
-/* ===========================
-   БАЗОВЫЕ СТИЛИ
-   =========================== */
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 html {
     box-sizing: border-box;
@@ -1192,6 +1194,19 @@ body.a11y .a11y-toggle {
 @media (max-width: 900px) {
     .header-search-input {
         width: 160px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .footer-inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 }
 

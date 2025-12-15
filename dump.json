@@ -1,0 +1,407 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Контент",
+    "permissions": [
+      [
+        "add_category",
+        "core",
+        "category"
+      ],
+      [
+        "change_category",
+        "core",
+        "category"
+      ],
+      [
+        "delete_category",
+        "core",
+        "category"
+      ],
+      [
+        "view_category",
+        "core",
+        "category"
+      ],
+      [
+        "add_newspost",
+        "core",
+        "newspost"
+      ],
+      [
+        "change_newspost",
+        "core",
+        "newspost"
+      ],
+      [
+        "delete_newspost",
+        "core",
+        "newspost"
+      ],
+      [
+        "view_newspost",
+        "core",
+        "newspost"
+      ],
+      [
+        "add_product",
+        "core",
+        "product"
+      ],
+      [
+        "change_product",
+        "core",
+        "product"
+      ],
+      [
+        "delete_product",
+        "core",
+        "product"
+      ],
+      [
+        "view_product",
+        "core",
+        "product"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Продажи",
+    "permissions": [
+      [
+        "add_request",
+        "core",
+        "request"
+      ],
+      [
+        "change_request",
+        "core",
+        "request"
+      ],
+      [
+        "delete_request",
+        "core",
+        "request"
+      ],
+      [
+        "view_request",
+        "core",
+        "request"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$IyxRF1KTbrWtJV9xrkg0qa$FCKtsDORHGjjtPcHVF6yTqYHTzfYwkv+obgm5ufSmZA=",
+    "last_login": "2025-12-12T04:18:26.084Z",
+    "is_superuser": true,
+    "username": "shatagin",
+    "first_name": "",
+    "last_name": "",
+    "email": "a.shatagin@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-10T12:43:07.848Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$fIjIGNTPHSasnuSC3pDx1H$ihZGIOPtwrUnyVBS7iAHGaH7NLgV3/lMsnkluHyUOQ0=",
+    "last_login": "2025-12-14T10:27:09.510Z",
+    "is_superuser": false,
+    "username": "content-manager",
+    "first_name": "Иван",
+    "last_name": "Иванов",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-14T10:25:11Z",
+    "groups": [
+      [
+        "Контент"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$zaPKcOASE7RV1U2gXSNQf6$doYwXhVFZEYeQbl+YIgRwcj3LR0rI6k+vgzLL2Po5ws=",
+    "last_login": "2025-12-14T10:30:58.708Z",
+    "is_superuser": false,
+    "username": "sales-manager",
+    "first_name": "Иван",
+    "last_name": "Иванов",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-14T10:30:12Z",
+    "groups": [
+      [
+        "Продажи"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "1unq8mhx528664gb06q3h8dvqrtarztw",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnr72JK-pzB2l1bOIBiKZ8KcXeIlALaNzPvpTJta8vbUuc8FnVRRp1-NyZ51GkH5U7TrWvp0zqPrHdFH3TRQy_1eT3cv4NGS_vWCM5wcCYS4NlZcODQoPGWkyAESpCYKCIis3dSg4BE4mhsDQHFq_cHmmo2kw:1vTuZK:sll2ZWgdWSwgYNtQ0UE0uI0y0tWfPJOrLDxt39vFdJM",
+    "expire_date": "2025-12-26T04:15:50.252Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4htiuex2ygmp3wgggcs7mcgbwhemkbe7",
+  "fields": {
+    "session_data": ".eJxVjM0OwiAQhN-FsyELtOB69O4zkF1-pGpoUtqT8d0tSQ96m8z3zbyFp20tfmtp8VMUF2HE6bdjCs9UO4gPqvdZhrmuy8SyK_KgTd7mmF7Xw_07KNTKvk4KEHEAHjkwg8HkrAaLAxPZiMFYxyrsQVPXyOFZO5XJUIY8OhCfL9r1N6Y:1vUjNS:sK5f0S_DUTlBFuN_xRJ6z4N2hzmKI5vCgEDVhzdi1w4",
+    "expire_date": "2025-12-28T10:30:58.709Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "r49z6t1s5ld4qor8k45ymo77t825hsog",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGlnr72JK-pzB2l1bOIBiKZ8KcXeIlALaNzPvpTJta8vbUuc8FnVRRp1-NyZ51GkH5U7TrWvp0zqPrHdFH3TRQy_1eT3cv4NGS_vWCM5wcCYS4NlZcODQoPGWkyAESpCYKCIis3dSg4BE4mhsDQHFq_cHmmo2kw:1vTubq:5pZpf-V5oLQnN3keRDe5DqILF9f7zR0QO4pqCx6ml7g",
+    "expire_date": "2025-12-26T04:18:26.086Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "yicd2pi43x5kr8ukoq0ntoze7end50ms",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSHCwAAu3fcbyPCSqoGktCvjv2uTLnR7zzn3xTxta_XbyIufE7swyU6_W6D4yG0H6U7t1nnsbV3mwHeFH3Twqaf8vB7u30GlUb-1sMZpk4q0IJUNCdw5IkmlLRY0llIhZTALEjo6BxoU5gwKAhoEksjeH74nNtE:1vUjJl:xK4nUt4NjpAgQWSdzHztUoA8ObcrSJf_5Gsoy3xaIhU",
+    "expire_date": "2025-12-28T10:27:09.512Z"
+  }
+},
+{
+  "model": "core.category",
+  "pk": 1,
+  "fields": {
+    "name": "Плёнки ПВХ пищевые",
+    "slug": "films-pvc",
+    "short_description": "Пищевая ПВХ-пленка – это прозрачный, эластичный упаковочный материал из поливинилхлорида, который «дышит», пропуская кислород внутрь и удаляя влагу и углекислый газ наружу, благодаря чему продукты (мясо, рыба, сыры, хлеб) дольше сохраняют свежесть, не плесневеют и не запотевают. Она самоклеящаяся, устойчива к маслам и кислотам, используется для упаковки на \"горячих столах\" в магазинах, а также дома для кратковременного хранения.",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.category",
+  "pk": 2,
+  "fields": {
+    "name": "Перчатки одноразовые",
+    "slug": "gloves",
+    "short_description": "Одноразовые перчатки являются популярным средством защиты кожи рук. Данный товар удобен в работе, перчатки легко одевать и снимать. Многие ассоциируют одноразовые перчатки с медицинскими, однако это далеко не так.",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.category",
+  "pk": 3,
+  "fields": {
+    "name": "Упаковка Комус",
+    "slug": "komus-packaging",
+    "short_description": "Упаковка Комус — это практичные и надёжные решения для предприятий общественного питания, торговли и производства. Продукция предназначена для хранения, фасовки и транспортировки пищевых продуктов с соблюдением санитарных требований.\r\nВ ассортимент входят одноразовые и многоразовые виды упаковки: контейнеры, плёнки, пакеты, стаканы и сопутствующие изделия. Материалы устойчивы к влаге, жиру и перепадам температур, подходят для холодных и горячих продуктов, а также для использования в холодильном и морозильном оборудовании.\r\nУпаковка Комус удобна в использовании, имеет стандартные форматы и размеры, что упрощает хранение и логистику. Продукция широко применяется в ресторанах, кафе, службах доставки, магазинах и на производственных линиях.\r\n\r\nУпаковка Комус — надёжный выбор для ежедневных задач бизнеса, где важны стабильность поставок и предсказуемое качество.",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "name": "MC / MB для сектора HoReCa",
+    "slug": "mc-mb-horeca",
+    "lead": "Пищевая ПВХ-плёнка для HoReCa (рестораны, кафе, кейтеринг) — это профессиональный упаковочный материал из поливинилхлорида",
+    "description": "Пищевая ПВХ-плёнка для HoReCa (рестораны, кафе, кейтеринг) — это профессиональный упаковочный материал из поливинилхлорида, который плотно прилегает, \"дышит\" (пропускает кислород, но не влагу), имеет антизапотевающие свойства и хорошо держится на различной посуде (нержавейка, стекло). Она идеальна для упаковки горячих и холодных блюд, а также сырых продуктов, сохраняя их свежесть, вкус и внешний вид, и используется как для ручной, так и для машинной упаковки.",
+    "image": "products/film_tKovcyF.jpg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "name": "HC CAST для ручной упаковки",
+    "slug": "hc-cast",
+    "lead": "Пленка HC CAST для ручной упаковки — это высококачественная прозрачная пищевая стрейч-пленка из ПВХ",
+    "description": "Пленка HC CAST для ручной упаковки — это высококачественная прозрачная пищевая стрейч-пленка из ПВХ, отличающаяся особой липкостью, глянцем и мягкостью, идеально подходящая для ручной упаковки продуктов на горячем столе, так как она «дышит», позволяет продуктам дольше оставаться свежими, имеет эффект «антиросы», устойчива к жиру и подходит для разогрева, обеспечивая отличный внешний вид упаковки.",
+    "image": "products/film_sepoRbI.jpg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "name": "HB для домашнего пользования",
+    "slug": "hb-home",
+    "lead": "Пленка \"HB\" для дома относится к «HB»-пленке для упаковки продуктов питания (высокобарьерной, типа Polyflex)",
+    "description": "Пленка \"HB\" для дома относится к «HB»-пленке для упаковки продуктов питания (высокобарьерной, типа Polyflex), которая используется на специализированных термоформовочных машинах для создания вакуумной или МГС-упаковки с целью продления свежести мяса, сыра, рыбы и готовых блюд, но она не предназначена для ручного бытового использования, а скорее для промышленного/полупрофессионального применения. Если речь идет о домашнем пользовании, то это может быть обычная пищевая стрейч-пленка (ПВХ/LDPE), которую используют для обертывания продуктов или HB-101, который является жидкой или гранулированной добавкой для растений.",
+    "image": "products/film.jpg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "name": "Jumbo рулоны для перемотки",
+    "slug": "jumbo-rolls",
+    "lead": "«Джамбо рулоны для перемотки» — это огромные, тяжелые рулоны упаковочных материалов (чаще всего стрейч-пленки",
+    "description": "«Джамбо рулоны для перемотки» — это огромные, тяжелые рулоны упаковочных материалов (чаще всего стрейч-пленки, самоклеящейся бумаги/этикетки), которые служат сырьем для предприятий, самостоятельно перематывающих их в рулоны меньшего, удобного для использования (ручного или машинного) размера, что позволяет сэкономить средства.",
+    "image": "products/film_i8ELF5O.jpg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 5,
+  "fields": {
+    "category": 2,
+    "name": "Перчатки ПЭ",
+    "slug": "pe-gloves",
+    "lead": "ПЭ перчатки (полиэтиленовые перчатки) — это недорогие одноразовые защитные перчатки из тонкого полиэтилена",
+    "description": "ПЭ перчатки (полиэтиленовые перчатки) — это недорогие одноразовые защитные перчатки из тонкого полиэтилена, которые используются для защиты рук от грязи, влаги, жира и неагрессивных веществ, широко применяются в пищевой промышленности, общепите, быту, клининге и салонах красоты, но не обеспечивают надежной защиты от микроорганизмов и не подходят для работы с острыми предметами или для точных манипуляций.",
+    "image": "products/pexels-photo-4021267.jpeg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.product",
+  "pk": 6,
+  "fields": {
+    "category": 2,
+    "name": "Виниловые перчатки",
+    "slug": "vinyl-gloves",
+    "lead": "Виниловые перчатки — это одноразовые перчатки из поливинилхлорида (ПВХ).",
+    "description": "Виниловые перчатки — это одноразовые перчатки из поливинилхлорида (ПВХ), которые ценятся за низкую стоимость, гипоаллергенность и водонепроницаемость, используются в пищевой промышленности, косметологии, уборке и быту, но менее прочные и эластичные по сравнению с нитриловыми или латексными, не подходят для контакта с агрессивными химикатами, хирургии, а также не обеспечивают надежную защиту от вирусов.",
+    "image": "products/pexels-photo-4021267_jSWBE2j.jpeg",
+    "is_active": true,
+    "sort_order": 0
+  }
+},
+{
+  "model": "core.request",
+  "pk": 2,
+  "fields": {
+    "name": "ntcn",
+    "phone": "3421423",
+    "email": "a.shatagin@gmail.com",
+    "comment": "ewrwerwer",
+    "category": 1,
+    "product": null,
+    "source_url": "http://foodpack.test/films-pvc/",
+    "status": "new",
+    "created_at": "2025-12-12T12:01:30.439Z"
+  }
+},
+{
+  "model": "core.request",
+  "pk": 3,
+  "fields": {
+    "name": "werwer",
+    "phone": "234234",
+    "email": "a.shatagin@gmail.com",
+    "comment": "2423432fsfwdf\r\nsfdf",
+    "category": 1,
+    "product": 3,
+    "source_url": "http://foodpack.test/films-pvc/hb-home/",
+    "status": "new",
+    "created_at": "2025-12-12T12:01:42.443Z"
+  }
+},
+{
+  "model": "core.request",
+  "pk": 6,
+  "fields": {
+    "name": "выававы",
+    "phone": "3453453",
+    "email": "a.shatagin@gmail.com",
+    "comment": "уцкцукцу",
+    "category": 1,
+    "product": null,
+    "source_url": "http://foodpack.test/films-pvc/",
+    "status": "new",
+    "created_at": "2025-12-12T12:10:04.428Z"
+  }
+},
+{
+  "model": "core.newspost",
+  "pk": 1,
+  "fields": {
+    "title": "Lorem ipsum dolor sit amet",
+    "slug": "lorem-ipsum-dolor-sit-amet",
+    "excerpt": "Lorem ipsum dolor sit amet",
+    "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "is_published": true,
+    "published_at": "2025-12-13T10:48:59.911Z",
+    "created_at": "2025-12-13T10:48:59.911Z",
+    "updated_at": "2025-12-13T10:48:59.911Z"
+  }
+},
+{
+  "model": "core.newspost",
+  "pk": 2,
+  "fields": {
+    "title": "Тестовая новости 1",
+    "slug": "testovaya-novosti-1",
+    "excerpt": "Короткий текст новости",
+    "body": "What is Lorem Ipsum?\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "is_published": true,
+    "published_at": "2025-12-14T05:21:11.564Z",
+    "created_at": "2025-12-14T05:21:11.564Z",
+    "updated_at": "2025-12-14T05:21:11.564Z"
+  }
+},
+{
+  "model": "core.newspost",
+  "pk": 3,
+  "fields": {
+    "title": "What is Lorem Ipsum?",
+    "slug": "what-is-lorem-ipsum",
+    "excerpt": "What is Lorem Ipsum?",
+    "body": "What is Lorem Ipsum?\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "is_published": true,
+    "published_at": "2025-12-14T05:22:11.264Z",
+    "created_at": "2025-12-14T05:22:11.264Z",
+    "updated_at": "2025-12-14T05:22:11.264Z"
+  }
+},
+{
+  "model": "core.newspost",
+  "pk": 4,
+  "fields": {
+    "title": "What is Lorem Ipsum?",
+    "slug": "what-is-lorem-ipsum-1",
+    "excerpt": "What is Lorem Ipsum?",
+    "body": "What is Lorem Ipsum?\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "is_published": true,
+    "published_at": "2025-12-14T05:22:28.584Z",
+    "created_at": "2025-12-14T05:22:28.584Z",
+    "updated_at": "2025-12-14T05:22:28.584Z"
+  }
+}
+]
