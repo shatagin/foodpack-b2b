@@ -54,7 +54,6 @@ class Product(models.Model):
         return reverse('product_detail', args=[self.category.slug, self.slug])
 
 
-
 class Request(models.Model):
     STATUS_NEW = 'new'
     STATUS_IN_PROGRESS = 'in_progress'
@@ -86,6 +85,23 @@ class Request(models.Model):
         blank=True,
         related_name='requests',
         verbose_name='Товар',
+    )
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Клиент',
+    )
+
+    request_status = models.ForeignKey(
+        RequestStatus,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Статус заявки',
     )
 
     source_url = models.URLField('Страница', blank=True)
