@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product, NewsPost
+from .models import Category, Product, NewsPost, Request, Client, RequestStatus, RequestStatusLog
 from .forms import RequestForm
 from django.db.models import Q
 

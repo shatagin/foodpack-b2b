@@ -28,7 +28,7 @@ class RequestForm(forms.Form):
         label='Комментарий',
         required=False,
         widget=forms.Textarea(attrs={
-            'placeholder': 'Укажите вид упаковки, объем, сроки и прочие требования',
+            'placeholder': 'Укажите вид упаковки, объем, сроки или дополнительные требования',
             'rows': 4,
         })
     )
