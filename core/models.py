@@ -54,45 +54,6 @@ class Product(models.Model):
         return reverse('product_detail', args=[self.category.slug, self.slug])
 
 
-class Client(models.Model):
-    company_name = models.CharField('Компания', max_length=255)
-    contact_person = models.CharField('Контактное лицо', max_length=255, blank=True)
-    phone = models.CharField('Телефон', max_length=50)
-    email = models.EmailField('E-mail', blank=True)
-    inn = models.CharField('ИНН', max_length=20, blank=True)
-    kpp = models.CharField('КПП', max_length=20, blank=True)
-    address = models.TextField('Адрес', blank=True)
-    comment = models.TextField('Комментарий', blank=True)
-    source = models.CharField('Источник', max_length=120, blank=True)
-    created_at = models.DateTimeField('Создано', auto_now_add=True)
-    updated_at = models.DateTimeField('Обновлено', auto_now=True)
-
-    class Meta:
-        verbose_name = 'Клиент'
-        verbose_name_plural = 'Клиенты'
-
-    def __str__(self):
-        return self.company_name
-
-
-class RequestStatus(models.Model):
-    name = models.CharField('Название', max_length=150)
-    code = models.CharField('Код', max_length=50, unique=True)
-    description = models.TextField('Описание', blank=True)
-    is_initial = models.BooleanField('Начальный статус', default=False)
-    is_final = models.BooleanField('Финальный статус', default=False)
-    sort_order = models.PositiveIntegerField('Порядок сортировки', default=0)
-    color = models.CharField('Цвет', max_length=30, blank=True)
-    is_active = models.BooleanField('Активен', default=True)
-
-    class Meta:
-        verbose_name = 'Статус заявки'
-        verbose_name_plural = 'Статусы заявок'
-        ordering = ['sort_order', 'name']
-
-    def __str__(self):
-        return self.name
-
 
 class Request(models.Model):
     STATUS_NEW = 'new'
