@@ -169,3 +169,40 @@ def search(request):
         'news': news,
     }
     return render(request, 'core/search.html', context)
+
+
+def create_request_from_form(form, request, category=None, product=None):
+    data = form.cleaned_data
+
+    client, _ = Client.objects.get_or_create(
+        phone=data['phone'],
+        defaults={
+            'company_name': data['company_name'],
+            'contact_person': data.get('contact_person', ''),
+            'email': data.get('email', ''),
+            'source': 'site',
+        }
+    )
+
+    status = RequestStatus.objects.filter(code='new').first()
+
+    obj = Request.objects.create(
+        client=client,
+        request_status=status,
+        name=data['company_name'],
+        phone=data['phone'],
+        email=data.get('email', ''),
+        comment=data.get('comment', ''),
+        category=category,
+        product=product,
+        source_url=request.build_absolute_uri(),
+    )
+
+    if status:
+        RequestStatusLog.objects.create(
+            request=obj,
+            new_status=status,
+            comment='Заявка создана через форму сайта',
+        )
+
+    return obj
