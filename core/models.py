@@ -118,6 +118,19 @@ class Request(models.Model):
         return f'Заявка #{self.id} — {self.name}'
 
 
+class RequestStatusLog(models.Model):
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='status_logs')
+    old_status = models.ForeignKey(RequestStatus, on_delete=models.SET_NULL, null=True, blank=True, related_name='old_logs')
+    new_status = models.ForeignKey(RequestStatus, on_delete=models.SET_NULL, null=True, related_name='new_logs')
+    changed_at = models.DateTimeField('Дата изменения', auto_now_add=True)
+    comment = models.TextField('Комментарий', blank=True)
+    change_reason = models.CharField('Причина изменения', max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = 'Лог изменения статуса заявки'
+        verbose_name_plural = 'Логи изменения статусов заявок'
+        ordering = ['-changed_at']
+
 class NewsPost(models.Model):
     title = models.CharField('Заголовок', max_length=255)
     slug = models.SlugField('Slug', max_length=255, unique=True, blank=True)
