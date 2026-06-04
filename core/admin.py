@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Request, NewsPost
+from .models import Category, Product, Request, NewsPost, Client, RequestStatus, RequestStatusLog
 
 
 @admin.register(Category)
@@ -34,3 +34,21 @@ class NewsPostAdmin(admin.ModelAdmin):
     list_filter = ('is_published', 'published_at')
     search_fields = ('title', 'excerpt', 'body')
     prepopulated_fields = {'slug': ('title',)}
+
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('company_name', 'contact_person', 'phone', 'email', 'created_at')
+    search_fields = ('company_name', 'contact_person', 'phone', 'email', 'inn')
+
+
+@admin.register(RequestStatus)
+class RequestStatusAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'is_initial', 'is_final', 'is_active', 'sort_order')
+    list_editable = ('is_active', 'sort_order')
+
+
+@admin.register(RequestStatusLog)
+class RequestStatusLogAdmin(admin.ModelAdmin):
+    list_display = ('request', 'old_status', 'new_status', 'changed_at')
+    readonly_fields = ('changed_at')

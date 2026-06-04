@@ -48,24 +48,29 @@
         {% csrf_token %}
 
         <div class="form-row">
-            <label for="id_name">Компания / имя</label>
-            {{ form.name }}
-        </div>
+    <label for="{{ form.company_name.id_for_label }}">Компания</label>
+    {{ form.company_name }}
+</div>
 
-        <div class="form-row">
-            <label for="id_phone">Телефон</label>
-            {{ form.phone }}
-        </div>
+<div class="form-row">
+    <label for="{{ form.contact_person.id_for_label }}">Контактное лицо</label>
+    {{ form.contact_person }}
+</div>
 
-        <div class="form-row">
-            <label for="id_email">E-mail</label>
-            {{ form.email }}
-        </div>
+<div class="form-row">
+    <label for="{{ form.phone.id_for_label }}">Телефон</label>
+    {{ form.phone }}
+</div>
 
-        <div class="form-row">
-            <label for="id_comment">Комментарий</label>
-            {{ form.comment }}
-        </div>
+<div class="form-row">
+    <label for="{{ form.email.id_for_label }}">E-mail</label>
+    {{ form.email }}
+</div>
+
+<div class="form-row">
+    <label for="{{ form.comment.id_for_label }}">Комментарий</label>
+    {{ form.comment }}
+</div>
 
         <button type="submit" class="btn btn-primary btn-block">Отправить запрос</button>
     </form>
