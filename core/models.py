@@ -149,15 +149,6 @@ class Request(models.Model):
         verbose_name='Статус заявки',
     )
 
-    request_status = models.ForeignKey(
-        RequestStatus,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='requests',
-        verbose_name='Статус заявки',
-    )
-
     source_url = models.URLField('Страница', blank=True)
     status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)
 

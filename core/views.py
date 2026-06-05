@@ -8,7 +8,7 @@ def index(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
+            obj = create_request_from_form(form, request)
             obj.source_url = request.build_absolute_uri()
             obj.save()
             return redirect('/#request')
@@ -22,7 +22,7 @@ def about(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
+            obj = create_request_from_form(form, request)
             obj.source_url = request.build_absolute_uri()
             obj.save()
             return redirect('/about/#request')
@@ -79,7 +79,7 @@ def product_detail(request, category_slug: str, product_slug: str):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
+            obj = create_request_from_form(form, request)
             obj.category = category
             obj.product = product
             obj.source_url = request.build_absolute_uri()
@@ -107,7 +107,7 @@ def category_detail(request, category_slug: str):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
+            obj = create_request_from_form(form, request)
             obj.category = category
             obj.source_url = request.build_absolute_uri()
             obj.save()
@@ -174,17 +174,24 @@ def search(request):
 def create_request_from_form(form, request, category=None, product=None):
     data = form.cleaned_data
 
-    client, _ = Client.objects.get_or_create(
+    client, created = Client.objects.get_or_create(
         phone=data['phone'],
         defaults={
             'company_name': data['company_name'],
             'contact_person': data.get('contact_person', ''),
             'email': data.get('email', ''),
+            'comment': data.get('comment', ''),
             'source': 'site',
         }
     )
 
-    status = RequestStatus.objects.filter(code='new').first()
+    if not created:
+        client.company_name = data['company_name']
+        client.contact_person = data.get('contact_person', '')
+        client.email = data.get('email', '')
+        client.save(update_fields=['company_name', 'contact_person', 'email', 'updated_at'])
+
+    status = RequestStatus.objects.filter(code='new', is_active=True).first()
 
     obj = Request.objects.create(
         client=client,
@@ -201,8 +208,10 @@ def create_request_from_form(form, request, category=None, product=None):
     if status:
         RequestStatusLog.objects.create(
             request=obj,
+            old_status=None,
             new_status=status,
             comment='Заявка создана через форму сайта',
         )
 
     return obj
+
