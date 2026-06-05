@@ -1228,27 +1228,32 @@ body.a11y .a11y-toggle {
 }
 
 .request-extra-fields {
-    margin: 2px 0 14px;
+    margin: 4px 0 16px;
 }
 
 .request-extra-fields summary {
-    display: inline-block;
+    width: fit-content;
     cursor: pointer;
     color: #1c5fd3;
     font-size: 14px;
     font-weight: 600;
+    line-height: 1.4;
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 4px;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .request-extra-fields summary:hover {
     color: #174ca7;
+    background-color: rgba(28, 95, 211, 0.08);
+}
+
+.request-extra-fields summary:focus-visible {
+    outline: 2px solid rgba(28, 95, 211, 0.35);
+    outline-offset: 3px;
 }
 
 .request-extra-fields[open] summary {
-    margin-bottom: 12px;
-}
-
-.request-extra-fields .form-row {
     margin-bottom: 12px;
 }
