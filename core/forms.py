@@ -1,5 +1,6 @@
 from django import forms
-from .models import Request
+from email_validator import EmailNotValidError, validate_email
+import phonenumbers
 
 
 class RequestForm(forms.Form):
@@ -32,3 +33,32 @@ class RequestForm(forms.Form):
             'rows': 4,
         })
     )
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone'].strip()
+
+        try:
+            parsed = phonenumbers.parse(phone, 'RU')
+        except phonenumbers.NumberParseException:
+            raise forms.ValidationError('Введите корректный номер телефона.')
+
+        if not phonenumbers.is_possible_number(parsed):
+            raise forms.ValidationError('Такой номер телефона невозможен.')
+
+        if not phonenumbers.is_valid_number(parsed):
+            raise forms.ValidationError('Введите существующий номер телефона.')
+
+        return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '').strip()
+
+        if not email:
+            return ''
+
+        try:
+            result = validate_email(email, check_deliverability=True)
+        except EmailNotValidError:
+            raise forms.ValidationError('Введите существующий e-mail с корректным доменом.')
+
+        return result.normalized
