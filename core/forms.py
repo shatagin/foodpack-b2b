@@ -2,28 +2,26 @@ from django import forms
 from email_validator import EmailNotValidError, validate_email
 import phonenumbers
 
+from .models import Category
+
 
 class RequestForm(forms.Form):
-    company_name = forms.CharField(
-        label='Компания',
-        max_length=255,
-        widget=forms.TextInput(attrs={'placeholder': 'Название организации'})
-    )
-    contact_person = forms.CharField(
-        label='Контактное лицо',
-        max_length=255,
+    category = forms.ModelChoiceField(
+        label='Категория продукции',
+        queryset=Category.objects.none(),
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Имя контактного лица'})
+        empty_label='Другое / не знаю',
     )
-    phone = forms.CharField(
-        label='Телефон',
-        max_length=50,
-        widget=forms.TextInput(attrs={'placeholder': '+7 (___) ___-__-__'})
-    )
-    email = forms.EmailField(
-        label='E-mail',
+    company_name = forms.CharField(label='Компания', max_length=255)
+    contact_person = forms.CharField(label='Контактное лицо', max_length=255, required=False)
+    phone = forms.CharField(label='Телефон', max_length=50)
+    email = forms.EmailField(label='E-mail', required=False)
+    inn = forms.CharField(label='ИНН', max_length=20, required=False)
+    kpp = forms.CharField(label='КПП', max_length=20, required=False)
+    address = forms.CharField(
+        label='Адрес',
         required=False,
-        widget=forms.EmailInput(attrs={'placeholder': 'you@company.ru'})
+        widget=forms.Textarea(attrs={'rows': 2})
     )
     comment = forms.CharField(
         label='Комментарий',
@@ -33,6 +31,12 @@ class RequestForm(forms.Form):
             'rows': 4,
         })
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.filter(
+            is_active=True
+        ).order_by('sort_order', 'name')
 
     def clean_phone(self):
         phone = self.cleaned_data['phone'].strip()
@@ -52,7 +56,6 @@ class RequestForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email', '').strip()
-
         if not email:
             return ''
 
@@ -62,3 +65,15 @@ class RequestForm(forms.Form):
             raise forms.ValidationError('Введите существующий e-mail с корректным доменом.')
 
         return result.normalized
+
+    def clean_inn(self):
+        inn = self.cleaned_data.get('inn', '').strip()
+        if inn and (not inn.isdigit() or len(inn) not in (10, 12)):
+            raise forms.ValidationError('ИНН должен содержать 10 или 12 цифр.')
+        return inn
+
+    def clean_kpp(self):
+        kpp = self.cleaned_data.get('kpp', '').strip()
+        if kpp and (not kpp.isdigit() or len(kpp) != 9):
+            raise forms.ValidationError('КПП должен содержать 9 цифр.')
+        return kpp

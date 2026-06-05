@@ -65,6 +65,18 @@ def category_detail(request, category_slug: str):
     )
     products = category.products.filter(is_active=True)
 
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            obj = create_request_from_form(form, request, category=category, product=product)
+            obj.category = category
+            obj.product = product
+            obj.source_url = request.build_absolute_uri()
+            obj.save()
+            return redirect(product.get_absolute_url())
+    else:
+        form = RequestForm()
+
     context = {
         'category': category,
         'products': products,
@@ -79,7 +91,7 @@ def product_detail(request, category_slug: str, product_slug: str):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = create_request_from_form(form, request)
+            obj = create_request_from_form(form, request, category=category, product=product)
             obj.category = category
             obj.product = product
             obj.source_url = request.build_absolute_uri()
@@ -174,12 +186,18 @@ def search(request):
 def create_request_from_form(form, request, category=None, product=None):
     data = form.cleaned_data
 
+    selected_category = category or (product.category if product else data.get('category'))
+    assigned_manager = selected_category.responsible_manager if selected_category else None
+
     client, created = Client.objects.get_or_create(
         phone=data['phone'],
         defaults={
             'company_name': data['company_name'],
             'contact_person': data.get('contact_person', ''),
             'email': data.get('email', ''),
+            'inn': data.get('inn', ''),
+            'kpp': data.get('kpp', ''),
+            'address': data.get('address', ''),
             'comment': data.get('comment', ''),
             'source': 'site',
         }
@@ -189,29 +207,35 @@ def create_request_from_form(form, request, category=None, product=None):
         client.company_name = data['company_name']
         client.contact_person = data.get('contact_person', '')
         client.email = data.get('email', '')
-        client.save(update_fields=['company_name', 'contact_person', 'email', 'updated_at'])
+        client.inn = data.get('inn', '')
+        client.kpp = data.get('kpp', '')
+        client.address = data.get('address', '')
+        client.save(update_fields=[
+            'company_name', 'contact_person', 'email',
+            'inn', 'kpp', 'address', 'updated_at'
+        ])
 
-    status = RequestStatus.objects.filter(code='new', is_active=True).first()
+    request_status = RequestStatus.objects.filter(code='new', is_active=True).first()
 
     obj = Request.objects.create(
         client=client,
-        request_status=status,
+        request_status=request_status,
+        assigned_manager=assigned_manager,
         name=data['company_name'],
         phone=data['phone'],
         email=data.get('email', ''),
         comment=data.get('comment', ''),
-        category=category,
+        category=selected_category,
         product=product,
         source_url=request.build_absolute_uri(),
     )
 
-    if status:
+    if request_status:
         RequestStatusLog.objects.create(
             request=obj,
             old_status=None,
-            new_status=status,
+            new_status=request_status,
             comment='Заявка создана через форму сайта',
         )
 
     return obj
-

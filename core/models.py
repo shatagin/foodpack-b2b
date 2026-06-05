@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -9,6 +10,15 @@ class Category(models.Model):
     short_description = models.TextField('Краткое описание', blank=True)
     is_active = models.BooleanField('Активна', default=True)
     sort_order = models.PositiveIntegerField('Порядок сортировки', default=0)
+
+    responsible_manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='managed_categories',
+        verbose_name='Ответственный менеджер',
+    )
 
     class Meta:
         ordering = ['sort_order', 'name']
