@@ -132,12 +132,21 @@ class Request(models.Model):
         verbose_name='Товар',
     )
     client = models.ForeignKey(
-        Client,
+        'Client',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='requests',
         verbose_name='Клиент',
+    )
+
+    request_status = models.ForeignKey(
+        'RequestStatus',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Статус заявки',
     )
 
     request_status = models.ForeignKey(
