@@ -1210,3 +1210,45 @@ body.a11y .a11y-toggle {
     }
 }
 
+.request-form select,
+.product-request-form select {
+    width: 100%;
+    padding: 9px 10px;
+    font-size: 14px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    background: #fff;
+    font: inherit;
+}
+
+.request-form select:focus,
+.product-request-form select:focus {
+    border-color: #1c5fd3;
+    outline: none;
+}
+
+.request-extra-fields {
+    margin: 2px 0 14px;
+}
+
+.request-extra-fields summary {
+    display: inline-block;
+    cursor: pointer;
+    color: #1c5fd3;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.request-extra-fields summary:hover {
+    color: #174ca7;
+}
+
+.request-extra-fields[open] summary {
+    margin-bottom: 12px;
+}
+
+.request-extra-fields .form-row {
+    margin-bottom: 12px;
+}

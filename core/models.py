@@ -159,6 +159,15 @@ class Request(models.Model):
         verbose_name='Статус заявки',
     )
 
+    assigned_manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_requests',
+        verbose_name='Назначенный менеджер',
+    )
+
     source_url = models.URLField('Страница', blank=True)
     status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)
 

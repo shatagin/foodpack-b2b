@@ -4,12 +4,10 @@ from .models import Category, Product, Request, NewsPost, Client, RequestStatus,
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'is_active', 'sort_order')
-    list_editable = ('is_active', 'sort_order')
-    prepopulated_fields = {'slug': ('name',)}
-    search_fields = ('name',)
     list_display = ('name', 'slug', 'responsible_manager', 'is_active', 'sort_order')
     list_editable = ('responsible_manager', 'is_active', 'sort_order')
+    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ('name',)
 
 
 @admin.register(Product)
@@ -23,16 +21,26 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'status', 'name', 'phone', 'email', 'category', 'product')
-    list_filter = ('status', 'created_at', 'category')
+    list_display = (
+        'id',
+        'created_at',
+        'request_status',
+        'assigned_manager',
+        'name',
+        'phone',
+        'email',
+        'category',
+        'product',
+    )
+    list_filter = (
+        'request_status',
+        'assigned_manager',
+        'created_at',
+        'category',
+    )
     search_fields = ('name', 'phone', 'email', 'comment')
     readonly_fields = ('created_at', 'source_url')
     ordering = ('-created_at',)
-    list_display = (
-        'id', 'created_at', 'request_status', 'assigned_manager',
-        'name', 'phone', 'email', 'category', 'product'
-    )
-    list_filter = ('request_status', 'assigned_manager', 'created_at', 'category')
 
 
 @admin.register(NewsPost)

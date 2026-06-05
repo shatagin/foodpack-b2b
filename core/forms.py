@@ -9,19 +9,50 @@ class RequestForm(forms.Form):
     category = forms.ModelChoiceField(
         label='Категория продукции',
         queryset=Category.objects.none(),
-        required=False,
-        empty_label='Другое / не знаю',
+        required=True,
+        empty_label='Выберите категорию',
+        widget=forms.Select()
     )
-    company_name = forms.CharField(label='Компания', max_length=255)
-    contact_person = forms.CharField(label='Контактное лицо', max_length=255, required=False)
-    phone = forms.CharField(label='Телефон', max_length=50)
-    email = forms.EmailField(label='E-mail', required=False)
-    inn = forms.CharField(label='ИНН', max_length=20, required=False)
-    kpp = forms.CharField(label='КПП', max_length=20, required=False)
+    company_name = forms.CharField(
+        label='Компания',
+        max_length=255,
+        widget=forms.TextInput(attrs={'placeholder': 'Название организации'})
+    )
+    contact_person = forms.CharField(
+        label='Контактное лицо',
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': 'Имя контактного лица'})
+    )
+    phone = forms.CharField(
+        label='Телефон',
+        max_length=50,
+        widget=forms.TextInput(attrs={'placeholder': '+7 (___) ___-__-__'})
+    )
+    email = forms.EmailField(
+        label='E-mail',
+        required=False,
+        widget=forms.EmailInput(attrs={'placeholder': 'you@company.ru'})
+    )
+    inn = forms.CharField(
+        label='ИНН',
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': '10 или 12 цифр'})
+    )
+    kpp = forms.CharField(
+        label='КПП',
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={'placeholder': '9 цифр'})
+    )
     address = forms.CharField(
         label='Адрес',
         required=False,
-        widget=forms.Textarea(attrs={'rows': 2})
+        widget=forms.Textarea(attrs={
+            'placeholder': 'Адрес доставки или юридический адрес',
+            'rows': 2,
+        })
     )
     comment = forms.CharField(
         label='Комментарий',

@@ -4,6 +4,12 @@
     {{ form.non_field_errors }}
 
     <div class="form-row">
+        <label for="{{ form.category.id_for_label }}">Категория продукции</label>
+        {{ form.category }}
+        {{ form.category.errors }}
+    </div>
+
+    <div class="form-row">
         <label for="{{ form.company_name.id_for_label }}">Компания</label>
         {{ form.company_name }}
         {{ form.company_name.errors }}
@@ -26,29 +32,29 @@
         {{ form.email }}
         {{ form.email.errors }}
     </div>
-<div class="form-row">
-    <label for="{{ form.category.id_for_label }}">Категория продукции</label>
-    {{ form.category }}
-    {{ form.category.errors }}
-</div>
 
-<div class="form-row">
-    <label for="{{ form.inn.id_for_label }}">ИНН</label>
-    {{ form.inn }}
-    {{ form.inn.errors }}
-</div>
+    <details class="request-extra-fields">
+        <summary>Указать ИНН, КПП или адрес</summary>
 
-<div class="form-row">
-    <label for="{{ form.kpp.id_for_label }}">КПП</label>
-    {{ form.kpp }}
-    {{ form.kpp.errors }}
-</div>
+        <div class="form-row">
+            <label for="{{ form.inn.id_for_label }}">ИНН</label>
+            {{ form.inn }}
+            {{ form.inn.errors }}
+        </div>
 
-<div class="form-row">
-    <label for="{{ form.address.id_for_label }}">Адрес</label>
-    {{ form.address }}
-    {{ form.address.errors }}
-</div>
+        <div class="form-row">
+            <label for="{{ form.kpp.id_for_label }}">КПП</label>
+            {{ form.kpp }}
+            {{ form.kpp.errors }}
+        </div>
+
+        <div class="form-row">
+            <label for="{{ form.address.id_for_label }}">Адрес</label>
+            {{ form.address }}
+            {{ form.address.errors }}
+        </div>
+    </details>
+
     <div class="form-row">
         <label for="{{ form.comment.id_for_label }}">Комментарий</label>
         {{ form.comment }}
