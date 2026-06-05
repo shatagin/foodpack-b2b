@@ -44,43 +44,7 @@
     <h3>Запросить цены</h3>
     <p>Оставьте заявку и мы Вам перезвоним.</p>
 
- <form method="post" class="request-form">
-    {% csrf_token %}
-
-    {{ form.non_field_errors }}
-
-    <div class="form-row">
-        <label for="{{ form.company_name.id_for_label }}">Компания</label>
-        {{ form.company_name }}
-        {{ form.company_name.errors }}
-    </div>
-
-    <div class="form-row">
-        <label for="{{ form.contact_person.id_for_label }}">Контактное лицо</label>
-        {{ form.contact_person }}
-        {{ form.contact_person.errors }}
-    </div>
-
-    <div class="form-row">
-        <label for="{{ form.phone.id_for_label }}">Телефон</label>
-        {{ form.phone }}
-        {{ form.phone.errors }}
-    </div>
-
-    <div class="form-row">
-        <label for="{{ form.email.id_for_label }}">E-mail</label>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
-
-    <div class="form-row">
-        <label for="{{ form.comment.id_for_label }}">Комментарий</label>
-        {{ form.comment }}
-        {{ form.comment.errors }}
-    </div>
-
-    <button type="submit" class="btn btn-primary btn-block">Отправить заявку</button>
-</form>
+ {% include "core/partials/request_form.html" with form_class="product-request-form" button_text="Отправить запрос" %}
 </aside>
         </div>
     </div>

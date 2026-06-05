@@ -1,4 +1,4 @@
-<form method="post" class="request-form">
+<form method="post" class="{{ form_class|default:'request-form' }}">
     {% csrf_token %}
 
     {{ form.non_field_errors }}
@@ -33,5 +33,7 @@
         {{ form.comment.errors }}
     </div>
 
-    <button type="submit" class="btn btn-primary btn-block">Отправить заявку</button>
+    <button type="submit" class="btn btn-primary btn-block">
+        {{ button_text|default:'Отправить заявку' }}
+    </button>
 </form>
