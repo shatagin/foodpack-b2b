@@ -8,6 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'sort_order')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
+    list_display = ('name', 'slug', 'responsible_manager', 'is_active', 'sort_order')
+    list_editable = ('responsible_manager', 'is_active', 'sort_order')
 
 
 @admin.register(Product)
@@ -26,6 +28,11 @@ class RequestAdmin(admin.ModelAdmin):
     search_fields = ('name', 'phone', 'email', 'comment')
     readonly_fields = ('created_at', 'source_url')
     ordering = ('-created_at',)
+    list_display = (
+        'id', 'created_at', 'request_status', 'assigned_manager',
+        'name', 'phone', 'email', 'category', 'product'
+    )
+    list_filter = ('request_status', 'assigned_manager', 'created_at', 'category')
 
 
 @admin.register(NewsPost)
