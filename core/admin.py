@@ -51,4 +51,4 @@ class RequestStatusAdmin(admin.ModelAdmin):
 @admin.register(RequestStatusLog)
 class RequestStatusLogAdmin(admin.ModelAdmin):
     list_display = ('request', 'old_status', 'new_status', 'changed_at')
-    readonly_fields = ('changed_at')
+    readonly_fields = ('changed_at',)
