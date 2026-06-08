@@ -31,6 +31,8 @@ class RequestAdmin(admin.ModelAdmin):
         'email',
         'category',
         'product',
+        'client_inn',
+        'client_kpp',
     )
     list_filter = (
         'request_status',
@@ -38,9 +40,87 @@ class RequestAdmin(admin.ModelAdmin):
         'created_at',
         'category',
     )
-    search_fields = ('name', 'phone', 'email', 'comment')
-    readonly_fields = ('created_at', 'source_url')
+    search_fields = (
+        'name',
+        'phone',
+        'email',
+        'comment',
+        'client__company_name',
+        'client__contact_person',
+        'client__phone',
+        'client__email',
+        'client__inn',
+        'client__kpp',
+        'client__address',
+    )
+    readonly_fields = (
+        'created_at',
+        'source_url',
+        'client_company_name',
+        'client_contact_person',
+        'client_inn',
+        'client_kpp',
+        'client_address',
+    )
     ordering = ('-created_at',)
+    list_select_related = (
+        'client',
+        'category',
+        'product',
+        'request_status',
+        'assigned_manager',
+    )
+
+    fieldsets = (
+        ('Заявка', {
+            'fields': (
+                'request_status',
+                'assigned_manager',
+                'category',
+                'product',
+                'comment',
+                'source_url',
+                'created_at',
+            )
+        }),
+        ('Контактные данные из заявки', {
+            'fields': (
+                'name',
+                'phone',
+                'email',
+            )
+        }),
+        ('Данные клиента', {
+            'fields': (
+                'client',
+                'client_company_name',
+                'client_contact_person',
+                'client_inn',
+                'client_kpp',
+                'client_address',
+            )
+        }),
+    )
+
+    def client_company_name(self, obj):
+        return obj.client.company_name if obj.client else '-'
+    client_company_name.short_description = 'Компания клиента'
+
+    def client_contact_person(self, obj):
+        return obj.client.contact_person if obj.client else '-'
+    client_contact_person.short_description = 'Контактное лицо'
+
+    def client_inn(self, obj):
+        return obj.client.inn if obj.client else '-'
+    client_inn.short_description = 'ИНН'
+
+    def client_kpp(self, obj):
+        return obj.client.kpp if obj.client else '-'
+    client_kpp.short_description = 'КПП'
+
+    def client_address(self, obj):
+        return obj.client.address if obj.client else '-'
+    client_address.short_description = 'Адрес'
 
 
 @admin.register(NewsPost)
@@ -53,8 +133,25 @@ class NewsPostAdmin(admin.ModelAdmin):
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('company_name', 'contact_person', 'phone', 'email', 'created_at')
-    search_fields = ('company_name', 'contact_person', 'phone', 'email', 'inn')
+    list_display = (
+        'company_name',
+        'contact_person',
+        'phone',
+        'email',
+        'inn',
+        'kpp',
+        'created_at',
+    )
+    search_fields = (
+        'company_name',
+        'contact_person',
+        'phone',
+        'email',
+        'inn',
+        'kpp',
+        'address',
+    )
+    readonly_fields = ('created_at', 'updated_at')
 
 
 @admin.register(RequestStatus)
