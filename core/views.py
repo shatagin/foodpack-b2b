@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, NewsPost, Request, Client, RequestStatus, RequestStatusLog
 from .forms import RequestForm
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 
 def index(request):
@@ -68,12 +69,12 @@ def category_detail(request, category_slug: str):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = create_request_from_form(form, request, category=category, product=product)
+            obj = create_request_from_form(form, request, category=category)
             obj.category = category
             obj.product = product
             obj.source_url = request.build_absolute_uri()
             obj.save()
-            return redirect(product.get_absolute_url())
+            return redirect(category.get_absolute_url())
     else:
         form = RequestForm()
 
@@ -183,11 +184,78 @@ def search(request):
     return render(request, 'core/search.html', context)
 
 
+def get_manager_group_for_category(category):
+    if not category:
+        return 'sales-manager'
+
+    category_text = f'{category.slug} {category.name}'.lower()
+
+    if 'komus' in category_text or 'комус' in category_text:
+        return 'sales-manager-komus'
+
+    if 'film' in category_text or 'плен' in category_text:
+        return 'sales-manager-film'
+
+    if 'glove' in category_text or 'перчат' in category_text:
+        return 'sales-manager-gloves'
+
+    return 'sales-manager'
+
+
+def get_assigned_manager_for_category(category):
+    group_name = get_manager_group_for_category(category)
+    User = get_user_model()
+
+    manager = (
+        User.objects
+        .filter(is_active=True, groups__name=group_name)
+        .order_by('id')
+        .first()
+    )
+
+    if manager:
+        return manager
+
+    if category and category.responsible_manager:
+        return category.responsible_manager
+
+    return (
+        User.objects
+        .filter(is_active=True, groups__name='sales-manager')
+        .order_by('id')
+        .first()
+    )
+
+def get_assigned_manager_for_category(category):
+    group_name = get_manager_group_for_category(category)
+    User = get_user_model()
+
+    manager = (
+        User.objects
+        .filter(is_active=True, groups__name=group_name)
+        .order_by('id')
+        .first()
+    )
+
+    if manager:
+        return manager
+
+    if category and category.responsible_manager:
+        return category.responsible_manager
+
+    return (
+        User.objects
+        .filter(is_active=True, groups__name='sales-manager')
+        .order_by('id')
+        .first()
+    )
+
+
 def create_request_from_form(form, request, category=None, product=None):
     data = form.cleaned_data
 
     selected_category = category or (product.category if product else data.get('category'))
-    assigned_manager = selected_category.responsible_manager if selected_category else None
+    assigned_manager = get_assigned_manager_for_category(selected_category)
 
     client, created = Client.objects.get_or_create(
         phone=data['phone'],
