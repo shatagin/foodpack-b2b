@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Category, Product, Request, NewsPost, Client, RequestStatus, RequestStatusLog
+
+from .models import (
+    Category,
+    Product,
+    Request,
+    NewsPost,
+    Client,
+    RequestStatus,
+    RequestStatusLog,
+)
 
 
 @admin.register(Category)
@@ -19,8 +28,27 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'lead')
 
 
+class RequestStatusLogInline(admin.TabularInline):
+    model = RequestStatusLog
+    extra = 0
+    can_delete = False
+    fields = (
+        'old_status',
+        'new_status',
+        'changed_at',
+        'comment',
+        'change_reason',
+    )
+    readonly_fields = fields
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
+    inlines = (RequestStatusLogInline,)
+
     list_display = (
         'id',
         'created_at',
@@ -102,6 +130,42 @@ class RequestAdmin(admin.ModelAdmin):
         }),
     )
 
+    def save_model(self, request, obj, form, change):
+        old_status = None
+        status_changed = False
+
+        if change and obj.pk:
+            old_obj = (
+                Request.objects
+                .filter(pk=obj.pk)
+                .select_related('request_status')
+                .first()
+            )
+
+            if old_obj:
+                old_status = old_obj.request_status
+                status_changed = old_obj.request_status_id != obj.request_status_id
+
+        super().save_model(request, obj, form, change)
+
+        if not change and obj.request_status_id:
+            RequestStatusLog.objects.create(
+                request=obj,
+                old_status=None,
+                new_status=obj.request_status,
+                comment='Заявка создана через административную панель',
+                change_reason=f'Пользователь: {request.user.get_username()}',
+            )
+
+        if change and status_changed:
+            RequestStatusLog.objects.create(
+                request=obj,
+                old_status=old_status,
+                new_status=obj.request_status,
+                comment='Статус заявки изменен через административную панель',
+                change_reason=f'Пользователь: {request.user.get_username()}',
+            )
+
     def client_company_name(self, obj):
         return obj.client.company_name if obj.client else '-'
     client_company_name.short_description = 'Компания клиента'
@@ -162,5 +226,29 @@ class RequestStatusAdmin(admin.ModelAdmin):
 
 @admin.register(RequestStatusLog)
 class RequestStatusLogAdmin(admin.ModelAdmin):
-    list_display = ('request', 'old_status', 'new_status', 'changed_at')
-    readonly_fields = ('changed_at',)
+    list_display = (
+        'request',
+        'old_status',
+        'new_status',
+        'changed_at',
+        'change_reason',
+    )
+    list_filter = ('old_status', 'new_status', 'changed_at')
+    search_fields = (
+        'request__name',
+        'request__phone',
+        'request__email',
+        'comment',
+        'change_reason',
+    )
+    readonly_fields = (
+        'request',
+        'old_status',
+        'new_status',
+        'changed_at',
+        'comment',
+        'change_reason',
+    )
+
+    def has_add_permission(self, request):
+        return False
