@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -9,6 +10,15 @@ class Category(models.Model):
     short_description = models.TextField('Краткое описание', blank=True)
     is_active = models.BooleanField('Активна', default=True)
     sort_order = models.PositiveIntegerField('Порядок сортировки', default=0)
+
+    responsible_manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='managed_categories',
+        verbose_name='Ответственный менеджер',
+    )
 
     class Meta:
         ordering = ['sort_order', 'name']
@@ -54,6 +64,51 @@ class Product(models.Model):
         return reverse('product_detail', args=[self.category.slug, self.slug])
 
 
+class Client(models.Model):
+    company_name = models.CharField('Компания', max_length=255)
+    contact_person = models.CharField('Контактное лицо', max_length=255, blank=True)
+    phone = models.CharField('Телефон', max_length=50)
+    email = models.EmailField('E-mail', blank=True)
+    inn = models.CharField('ИНН', max_length=20, blank=True)
+    kpp = models.CharField('КПП', max_length=20, blank=True)
+    address = models.TextField('Адрес', blank=True)
+    comment = models.TextField('Комментарий', blank=True)
+    source = models.CharField('Источник', max_length=120, blank=True)
+
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+        ordering = ['company_name']
+
+    def __str__(self) -> str:
+        if self.contact_person:
+            return f'{self.company_name} — {self.contact_person}'
+        return self.company_name
+
+
+class RequestStatus(models.Model):
+    name = models.CharField('Название', max_length=150)
+    code = models.CharField('Код', max_length=50, unique=True)
+    description = models.TextField('Описание', blank=True)
+
+    is_initial = models.BooleanField('Начальный статус', default=False)
+    is_final = models.BooleanField('Финальный статус', default=False)
+    sort_order = models.PositiveIntegerField('Порядок сортировки', default=0)
+    color = models.CharField('Цвет', max_length=30, blank=True)
+    is_active = models.BooleanField('Активен', default=True)
+
+    class Meta:
+        verbose_name = 'Статус заявки'
+        verbose_name_plural = 'Статусы заявок'
+        ordering = ['sort_order', 'name']
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Request(models.Model):
     STATUS_NEW = 'new'
     STATUS_IN_PROGRESS = 'in_progress'
@@ -86,6 +141,32 @@ class Request(models.Model):
         related_name='requests',
         verbose_name='Товар',
     )
+    client = models.ForeignKey(
+        'Client',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Клиент',
+    )
+
+    request_status = models.ForeignKey(
+        'RequestStatus',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='requests',
+        verbose_name='Статус заявки',
+    )
+
+    assigned_manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_requests',
+        verbose_name='Назначенный менеджер',
+    )
 
     source_url = models.URLField('Страница', blank=True)
     status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)
@@ -99,6 +180,20 @@ class Request(models.Model):
 
     def __str__(self) -> str:
         return f'Заявка #{self.id} — {self.name}'
+
+
+class RequestStatusLog(models.Model):
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='status_logs')
+    old_status = models.ForeignKey(RequestStatus, on_delete=models.SET_NULL, null=True, blank=True, related_name='old_logs')
+    new_status = models.ForeignKey(RequestStatus, on_delete=models.SET_NULL, null=True, related_name='new_logs')
+    changed_at = models.DateTimeField('Дата изменения', auto_now_add=True)
+    comment = models.TextField('Комментарий', blank=True)
+    change_reason = models.CharField('Причина изменения', max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = 'Лог изменения статуса заявки'
+        verbose_name_plural = 'Логи изменения статусов заявок'
+        ordering = ['-changed_at']
 
 
 class NewsPost(models.Model):

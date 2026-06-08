@@ -112,7 +112,7 @@ FoodPack выстраивает долгосрочные партнёрские 
             <h2>Оставить заявку</h2>
         </div>
 
-        {% include "core/partials/request_form.html" %}
+{% include "core/partials/request_form.html" with form_class="product-request-form" button_text="Отправить запрос" %}
     </div>
 </section>
 {% endblock %}

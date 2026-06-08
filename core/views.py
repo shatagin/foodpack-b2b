@@ -1,16 +1,25 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Product, NewsPost
-from .forms import RequestForm
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import RequestForm
+from .models import Category, Client, NewsPost, Product, Request, RequestStatus, RequestStatusLog
+
+
+REQUEST_SUCCESS_MESSAGE = 'Заявка успешно отправлена. Менеджер свяжется с вами в ближайшее время.'
+
+
+def add_request_success_message(request):
+    messages.success(request, REQUEST_SUCCESS_MESSAGE)
 
 
 def index(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.source_url = request.build_absolute_uri()
-            obj.save()
+            create_request_from_form(form, request)
+            add_request_success_message(request)
             return redirect('/#request')
     else:
         form = RequestForm()
@@ -22,9 +31,8 @@ def about(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.source_url = request.build_absolute_uri()
-            obj.save()
+            create_request_from_form(form, request)
+            add_request_success_message(request)
             return redirect('/about/#request')
     else:
         form = RequestForm()
@@ -33,7 +41,16 @@ def about(request):
 
 
 def contacts(request):
-    return render(request, 'core/contacts.html')
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            create_request_from_form(form, request)
+            add_request_success_message(request)
+            return redirect('/contacts/#request')
+    else:
+        form = RequestForm()
+
+    return render(request, 'core/contacts.html', {'form': form})
 
 
 def sitemap(request):
@@ -58,16 +75,29 @@ def sitemap(request):
 
 
 def category_detail(request, category_slug: str):
-    category = get_object_or_404(
-        Category,
-        slug=category_slug,
-        is_active=True,
-    )
-    products = category.products.filter(is_active=True)
+    category = get_object_or_404(Category, slug=category_slug, is_active=True)
+    products = category.products.filter(is_active=True).order_by('sort_order', 'name')
+
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            selected_category = form.cleaned_data.get('category') or category
+
+            create_request_from_form(
+                form,
+                request,
+                category=selected_category,
+            )
+
+            add_request_success_message(request)
+            return redirect(category.get_absolute_url())
+    else:
+        form = RequestForm(initial={'category': category.pk})
 
     context = {
         'category': category,
         'products': products,
+        'form': form,
     }
     return render(request, 'core/category_detail.html', context)
 
@@ -79,14 +109,17 @@ def product_detail(request, category_slug: str, product_slug: str):
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.category = category
-            obj.product = product
-            obj.source_url = request.build_absolute_uri()
-            obj.save()
+            create_request_from_form(
+                form,
+                request,
+                category=category,
+                product=product,
+            )
+
+            add_request_success_message(request)
             return redirect(product.get_absolute_url())
     else:
-        form = RequestForm()
+        form = RequestForm(initial={'category': category.pk})
 
     context = {
         'category': category,
@@ -98,29 +131,6 @@ def product_detail(request, category_slug: str, product_slug: str):
 
 def page_not_found(request, exception):
     return render(request, 'core/404.html', status=404)
-
-
-def category_detail(request, category_slug: str):
-    category = get_object_or_404(Category, slug=category_slug, is_active=True)
-    products = category.products.filter(is_active=True)
-
-    if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.category = category
-            obj.source_url = request.build_absolute_uri()
-            obj.save()
-            return redirect(category.get_absolute_url())
-    else:
-        form = RequestForm()
-
-    context = {
-        'category': category,
-        'products': products,
-        'form': form,
-    }
-    return render(request, 'core/category_detail.html', context)
 
 
 def news_list(request):
@@ -169,3 +179,112 @@ def search(request):
         'news': news,
     }
     return render(request, 'core/search.html', context)
+
+
+def get_manager_group_for_category(category):
+    if not category:
+        return 'sales-manager'
+
+    category_text = f'{category.slug} {category.name}'.lower()
+
+    if 'komus' in category_text or 'комус' in category_text:
+        return 'sales-manager-komus'
+
+    if 'film' in category_text or 'плен' in category_text:
+        return 'sales-manager-film'
+
+    if 'glove' in category_text or 'перчат' in category_text:
+        return 'sales-manager-gloves'
+
+    return 'sales-manager'
+
+
+def get_assigned_manager_for_category(category):
+    group_name = get_manager_group_for_category(category)
+    User = get_user_model()
+
+    manager = (
+        User.objects
+        .filter(is_active=True, groups__name=group_name)
+        .order_by('id')
+        .first()
+    )
+
+    if manager:
+        return manager
+
+    if category and category.responsible_manager:
+        return category.responsible_manager
+
+    return (
+        User.objects
+        .filter(is_active=True, groups__name='sales-manager')
+        .order_by('id')
+        .first()
+    )
+
+
+def create_request_from_form(form, request, category=None, product=None):
+    data = form.cleaned_data
+
+    selected_category = category or (product.category if product else data.get('category'))
+    assigned_manager = get_assigned_manager_for_category(selected_category)
+
+    client, created = Client.objects.get_or_create(
+        phone=data['phone'],
+        defaults={
+            'company_name': data['company_name'],
+            'contact_person': data.get('contact_person', ''),
+            'email': data.get('email', ''),
+            'inn': data.get('inn', ''),
+            'kpp': data.get('kpp', ''),
+            'address': data.get('address', ''),
+            'comment': data.get('comment', ''),
+            'source': 'site',
+        }
+    )
+
+    if not created:
+        client.company_name = data['company_name']
+        client.contact_person = data.get('contact_person', '')
+        client.email = data.get('email', '')
+        client.inn = data.get('inn', '')
+        client.kpp = data.get('kpp', '')
+        client.address = data.get('address', '')
+        client.save(update_fields=[
+            'company_name',
+            'contact_person',
+            'email',
+            'inn',
+            'kpp',
+            'address',
+            'updated_at',
+        ])
+
+    request_status = RequestStatus.objects.filter(code='new', is_active=True).first()
+
+    if request_status is None:
+        request_status = RequestStatus.objects.filter(is_initial=True, is_active=True).first()
+
+    obj = Request.objects.create(
+        client=client,
+        request_status=request_status,
+        assigned_manager=assigned_manager,
+        name=data['company_name'],
+        phone=data['phone'],
+        email=data.get('email', ''),
+        comment=data.get('comment', ''),
+        category=selected_category,
+        product=product,
+        source_url=request.build_absolute_uri(),
+    )
+
+    if request_status:
+        RequestStatusLog.objects.create(
+            request=obj,
+            old_status=None,
+            new_status=request_status,
+            comment='Заявка создана через форму сайта',
+        )
+
+    return obj

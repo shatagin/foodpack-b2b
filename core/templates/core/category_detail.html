@@ -53,32 +53,7 @@
 <aside class="product-side">
     <h3>Запросить цены</h3>
     <p>Оставьте заявку и мы Вам перезвоним.</p>
-
-    <form method="post" class="product-request-form">
-        {% csrf_token %}
-
-        <div class="form-row">
-            <label for="id_name">Компания / имя</label>
-            {{ form.name }}
-        </div>
-
-        <div class="form-row">
-            <label for="id_phone">Телефон</label>
-            {{ form.phone }}
-        </div>
-
-        <div class="form-row">
-            <label for="id_email">E-mail</label>
-            {{ form.email }}
-        </div>
-
-        <div class="form-row">
-            <label for="id_comment">Комментарий</label>
-            {{ form.comment }}
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
-    </form>
+    {% include "core/partials/request_form.html" with form_class="product-request-form" button_text="Отправить запрос" %}
 </aside>
         </div>
     </div>
