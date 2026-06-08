@@ -63,7 +63,19 @@
         </div>
     </div>
 </header>
-
+{% if messages %}
+    <div class="toast-container" aria-live="polite" aria-atomic="true">
+        {% for message in messages %}
+            <div class="toast-message {{ message.tags }}" role="status">
+                <span class="toast-icon">✓</span>
+                <span class="toast-text">{{ message }}</span>
+                <button type="button" class="toast-close" aria-label="Закрыть уведомление">
+                    ×
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <main class="site-main">
     {% block content %}{% endblock %}
@@ -117,6 +129,29 @@
         isOn = !isOn;
         localStorage.setItem(key, isOn ? '1' : '0');
         apply(isOn);
+    });
+})();
+</script>
+<script>
+(function () {
+    var toasts = document.querySelectorAll('.toast-message');
+
+    toasts.forEach(function (toast) {
+        var closeButton = toast.querySelector('.toast-close');
+
+        function closeToast() {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-8px)';
+            setTimeout(function () {
+                toast.remove();
+            }, 200);
+        }
+
+        if (closeButton) {
+            closeButton.addEventListener('click', closeToast);
+        }
+
+        setTimeout(closeToast, 4500);
     });
 })();
 </script>
