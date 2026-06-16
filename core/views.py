@@ -2,12 +2,77 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import JsonResponse
 
 from .forms import RequestForm
 from .models import Category, Client, NewsPost, Product, Request, RequestStatus, RequestStatusLog
 
 
 REQUEST_SUCCESS_MESSAGE = 'Заявка успешно отправлена. Менеджер свяжется с вами в ближайшее время.'
+REQUEST_ERROR_MESSAGE = 'Проверьте корректность заполнения формы.'
+
+
+def is_ajax_request(request):
+    return (
+        request.headers.get('x-requested-with') == 'XMLHttpRequest'
+        or 'application/json' in request.headers.get('accept', '')
+    )
+
+
+def serialize_form_errors(form):
+    return {
+        field: [str(error) for error in errors]
+        for field, errors in form.errors.items()
+    }
+
+
+def request_form_error_response(form):
+    return JsonResponse(
+        {
+            'ok': False,
+            'message': REQUEST_ERROR_MESSAGE,
+            'errors': serialize_form_errors(form),
+        },
+        status=422,
+    )
+
+
+def request_form_success_response(obj):
+    return JsonResponse(
+        {
+            'ok': True,
+            'message': REQUEST_SUCCESS_MESSAGE,
+            'request_id': obj.id,
+        }
+    )
+
+
+def process_request_form(request, success_url, category=None, product=None, use_selected_category=True):
+    form = RequestForm(request.POST)
+
+    if form.is_valid():
+        selected_category = category
+
+        if use_selected_category:
+            selected_category = form.cleaned_data.get('category') or category
+
+        obj = create_request_from_form(
+            form,
+            request,
+            category=selected_category,
+            product=product,
+        )
+
+        if is_ajax_request(request):
+            return form, request_form_success_response(obj)
+
+        add_request_success_message(request)
+        return form, redirect(success_url)
+
+    if is_ajax_request(request):
+        return form, request_form_error_response(form)
+
+    return form, None
 
 
 def add_request_success_message(request):
@@ -16,11 +81,9 @@ def add_request_success_message(request):
 
 def index(request):
     if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            create_request_from_form(form, request)
-            add_request_success_message(request)
-            return redirect('/#request')
+        form, response = process_request_form(request, '/#request')
+        if response:
+            return response
     else:
         form = RequestForm()
 
@@ -29,11 +92,9 @@ def index(request):
 
 def about(request):
     if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            create_request_from_form(form, request)
-            add_request_success_message(request)
-            return redirect('/about/#request')
+        form, response = process_request_form(request, '/about/#request')
+        if response:
+            return response
     else:
         form = RequestForm()
 
@@ -42,11 +103,9 @@ def about(request):
 
 def contacts(request):
     if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            create_request_from_form(form, request)
-            add_request_success_message(request)
-            return redirect('/contacts/#request')
+        form, response = process_request_form(request, '/contacts/#request')
+        if response:
+            return response
     else:
         form = RequestForm()
 
@@ -79,18 +138,14 @@ def category_detail(request, category_slug: str):
     products = category.products.filter(is_active=True).order_by('sort_order', 'name')
 
     if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            selected_category = form.cleaned_data.get('category') or category
-
-            create_request_from_form(
-                form,
-                request,
-                category=selected_category,
-            )
-
-            add_request_success_message(request)
-            return redirect(category.get_absolute_url())
+        form, response = process_request_form(
+            request,
+            category.get_absolute_url(),
+            category=category,
+            use_selected_category=True,
+        )
+        if response:
+            return response
     else:
         form = RequestForm(initial={'category': category.pk})
 
@@ -107,17 +162,15 @@ def product_detail(request, category_slug: str, product_slug: str):
     product = get_object_or_404(Product, category=category, slug=product_slug, is_active=True)
 
     if request.method == 'POST':
-        form = RequestForm(request.POST)
-        if form.is_valid():
-            create_request_from_form(
-                form,
-                request,
-                category=category,
-                product=product,
-            )
-
-            add_request_success_message(request)
-            return redirect(product.get_absolute_url())
+        form, response = process_request_form(
+            request,
+            product.get_absolute_url(),
+            category=category,
+            product=product,
+            use_selected_category=False,
+        )
+        if response:
+            return response
     else:
         form = RequestForm(initial={'category': category.pk})
 

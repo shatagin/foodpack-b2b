@@ -156,5 +156,192 @@
     });
 })();
 </script>
+<script>
+(function () {
+    function getFieldElement(form, fieldName) {
+        var field = form.elements[fieldName];
+
+        if (!field) {
+            return null;
+        }
+
+        if (field.length && !field.tagName) {
+            return field[0];
+        }
+
+        return field;
+    }
+
+    function setFormMessage(form, message, type) {
+        var messageBlock = form.querySelector('[data-form-message]');
+
+        if (!messageBlock) {
+            return;
+        }
+
+        messageBlock.hidden = false;
+        messageBlock.classList.remove('form-alert-error', 'form-alert-success');
+        messageBlock.classList.add(type === 'success' ? 'form-alert-success' : 'form-alert-error');
+        messageBlock.textContent = message;
+    }
+
+    function clearFormErrors(form) {
+        var rows = form.querySelectorAll('.form-row.has-error');
+
+        rows.forEach(function (row) {
+            row.classList.remove('has-error');
+        });
+
+        form.querySelectorAll('[aria-invalid="true"]').forEach(function (field) {
+            field.removeAttribute('aria-invalid');
+        });
+
+        form.querySelectorAll('[data-field-error]').forEach(function (container) {
+            container.textContent = '';
+        });
+
+        var messageBlock = form.querySelector('[data-form-message]');
+        if (messageBlock) {
+            messageBlock.hidden = true;
+            messageBlock.textContent = '';
+        }
+    }
+
+    function showToast(message, type) {
+        var container = document.querySelector('.toast-container');
+
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'toast-container';
+            container.setAttribute('aria-live', 'polite');
+            container.setAttribute('aria-atomic', 'true');
+            document.body.appendChild(container);
+        }
+
+        var toast = document.createElement('div');
+        toast.className = 'toast-message ' + (type || 'success');
+        toast.setAttribute('role', 'status');
+        toast.innerHTML =
+            '<span class="toast-icon">' + (type === 'error' ? '!' : '✓') + '</span>' +
+            '<span class="toast-text"></span>' +
+            '<button type="button" class="toast-close" aria-label="Закрыть уведомление">×</button>';
+
+        toast.querySelector('.toast-text').textContent = message;
+        container.appendChild(toast);
+
+        function closeToast() {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-8px)';
+            setTimeout(function () {
+                toast.remove();
+            }, 200);
+        }
+
+        toast.querySelector('.toast-close').addEventListener('click', closeToast);
+        setTimeout(closeToast, 20000);
+    }
+
+    function applyFormErrors(form, errors) {
+        var firstInvalidField = null;
+
+        Object.keys(errors || {}).forEach(function (fieldName) {
+            if (fieldName === '__all__') {
+                setFormMessage(form, errors[fieldName].join(' '), 'error');
+                return;
+            }
+
+            var field = getFieldElement(form, fieldName);
+            var message = errors[fieldName].join(' ');
+            var errorContainer = form.querySelector('[data-field-error="' + fieldName + '"]');
+
+            if (field) {
+                field.setAttribute('aria-invalid', 'true');
+
+                var row = field.closest('.form-row');
+                if (row) {
+                    row.classList.add('has-error');
+                }
+
+                var details = field.closest('details');
+                if (details) {
+                    details.open = true;
+                }
+
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+            }
+
+            if (errorContainer) {
+                errorContainer.textContent = message;
+            }
+        });
+
+        if (firstInvalidField) {
+            firstInvalidField.focus();
+        }
+    }
+
+    document.querySelectorAll('[data-ajax-request-form]').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var submitButton = form.querySelector('[type="submit"]');
+            var defaultButtonText = submitButton ? submitButton.textContent : '';
+
+            clearFormErrors(form);
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Отправляем...';
+            }
+
+            fetch(form.action || window.location.href, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(function (response) {
+                    return response.json().then(function (data) {
+                        return {
+                            ok: response.ok,
+                            data: data
+                        };
+                    });
+                })
+                .then(function (result) {
+                    if (result.ok && result.data.ok) {
+                        form.reset();
+
+                        form.querySelectorAll('details').forEach(function (details) {
+                            details.open = false;
+                        });
+
+                        setFormMessage(form, result.data.message, 'success');
+                        showToast(result.data.message, 'success');
+                        return;
+                    }
+
+                    setFormMessage(form, result.data.message || 'Проверьте корректность заполнения формы.', 'error');
+                    applyFormErrors(form, result.data.errors || {});
+                })
+                .catch(function () {
+                    var message = 'Не удалось отправить заявку. Проверьте соединение и попробуйте еще раз.';
+                    setFormMessage(form, message, 'error');
+                    showToast(message, 'error');
+                })
+                .finally(function () {
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = defaultButtonText;
+                    }
+                });
+        });
+    });
+})();
+</script>
 </body>
 </html>

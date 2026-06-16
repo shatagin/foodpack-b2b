@@ -1441,3 +1441,75 @@ body.a11y .a11y-toggle {
         justify-content: center;
     }
 }
+
+
+.form-alert {
+    display: block;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.form-alert[hidden] {
+    display: none;
+}
+
+.form-alert-error {
+    color: #9f1c1c;
+    background: #fff1f1;
+    border: 1px solid #f4b6b6;
+}
+
+.form-alert-success {
+    color: #176b32;
+    background: #ecfdf3;
+    border: 1px solid #9bd7ac;
+}
+
+.field-error {
+    min-height: 18px;
+    margin-top: 5px;
+    color: #b42318;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.field-error span {
+    display: block;
+}
+
+.request-form .form-row.has-error input,
+.request-form .form-row.has-error select,
+.request-form .form-row.has-error textarea,
+.product-request-form .form-row.has-error input,
+.product-request-form .form-row.has-error select,
+.product-request-form .form-row.has-error textarea {
+    border-color: #d92d20;
+    background: #fffafa;
+}
+
+.request-form .form-row.has-error input:focus,
+.request-form .form-row.has-error select:focus,
+.request-form .form-row.has-error textarea:focus,
+.product-request-form .form-row.has-error input:focus,
+.product-request-form .form-row.has-error select:focus,
+.product-request-form .form-row.has-error textarea:focus {
+    border-color: #d92d20;
+    box-shadow: 0 0 0 3px rgba(217, 45, 32, 0.14);
+    outline: none;
+}
+
+.btn[disabled] {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+.toast-message.error {
+    border-left: 4px solid #d92d20;
+}
+
+.toast-message.error .toast-icon {
+    background: #d92d20;
+}

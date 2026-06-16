@@ -1,6 +1,10 @@
-<form method="post" class="{{ form_class|default:'request-form' }}">
+<form method="post" class="{{ form_class|default:'request-form' }}" data-ajax-request-form novalidate>
     {% csrf_token %}
-
+<div class="form-alert form-alert-error" data-form-message {% if not form.non_field_errors %}hidden{% endif %}>
+    {% for error in form.non_field_errors %}
+        <span>{{ error }}</span>
+    {% endfor %}
+</div>
     {{ form.non_field_errors }}
 
     <div class="form-row">
