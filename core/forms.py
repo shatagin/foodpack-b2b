@@ -1,7 +1,9 @@
 import re
 
 from django import forms
-from email_validator import EmailNotValidError, validate_email
+import dns.exception
+import dns.resolver
+from email_validator import EmailNotValidError, EmailUndeliverableError, validate_email
 import phonenumbers
 
 from .models import Category
@@ -63,6 +65,19 @@ def validate_kpp(value):
         return False
 
     return bool(KPP_PATTERN.match(kpp))
+
+
+def is_dns_check_failure(error):
+    cause = error.__cause__
+
+    if isinstance(cause, (
+        dns.exception.Timeout,
+        dns.resolver.NoNameservers,
+        dns.resolver.LifetimeTimeout,
+    )):
+        return True
+
+    return 'There was an error while checking' in str(error)
 
 
 class RequestForm(forms.Form):
@@ -151,9 +166,26 @@ class RequestForm(forms.Form):
             return ''
 
         try:
-            result = validate_email(email, check_deliverability=True)
-        except EmailNotValidError:
+            result = validate_email(
+                email,
+                check_deliverability=True,
+                timeout=5,
+            )
+        except EmailUndeliverableError as exc:
+            if is_dns_check_failure(exc):
+                try:
+                    result = validate_email(
+                        email,
+                        check_deliverability=False,
+                    )
+                except EmailNotValidError:
+                    raise forms.ValidationError('Введите корректный e-mail.')
+
+                return result.normalized
+
             raise forms.ValidationError('Введите существующий e-mail с корректным доменом.')
+        except EmailNotValidError:
+            raise forms.ValidationError('Введите корректный e-mail.')
 
         return result.normalized
 
