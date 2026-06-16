@@ -47,6 +47,24 @@ def validate_inn(value):
     return False
 
 
+KPP_PATTERN = re.compile(r'^\d{4}[0-9A-Z]{2}\d{3}$')
+
+
+def normalize_kpp(value):
+    value = (value or '').strip().replace('\xa0', ' ')
+    value = re.sub(r'[\s-]+', '', value)
+    return value.upper()
+
+
+def validate_kpp(value):
+    kpp = normalize_kpp(value)
+
+    if not kpp:
+        return False
+
+    return bool(KPP_PATTERN.match(kpp))
+
+
 class RequestForm(forms.Form):
     category = forms.ModelChoiceField(
         label='Категория продукции',
@@ -146,7 +164,12 @@ class RequestForm(forms.Form):
         return inn
 
     def clean_kpp(self):
-        kpp = self.cleaned_data.get('kpp', '').strip()
-        if kpp and (not kpp.isdigit() or len(kpp) != 9):
-            raise forms.ValidationError('КПП должен содержать 9 цифр.')
+        kpp = normalize_kpp(self.cleaned_data.get('kpp', ''))
+        if not kpp:
+            return ''
+        if not validate_kpp(kpp):
+            raise forms.ValidationError(
+                'Введите корректный КПП: 9 символов'
+            )
+
         return kpp
