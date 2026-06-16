@@ -1,8 +1,50 @@
+import re
+
 from django import forms
 from email_validator import EmailNotValidError, validate_email
 import phonenumbers
 
 from .models import Category
+
+
+def normalize_inn(value):
+    value = (value or '').strip().replace('\xa0', ' ')
+    value = re.sub(r'[A-Za-zА-Яа-яЁё]', '', value)
+
+    return re.sub(r'[\s-]+', '', value)
+
+
+def validate_inn_ul(value):
+    if len(value) != 10 or not value.isdigit():
+        return False
+    weights = (2, 4, 10, 3, 5, 9, 4, 6, 8)
+    total = sum(int(digit) * weight for digit, weight in zip(value, weights))
+    control_digit = total % 11 % 10
+
+    return control_digit == int(value[9])
+
+
+def validate_inn_fl(value):
+    if len(value) != 12 or not value.isdigit():
+        return False
+
+    weights_11 = (7, 2, 4, 10, 3, 5, 9, 4, 6, 8)
+    weights_12 = (3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8)
+
+    digit_11 = sum(int(digit) * weight for digit, weight in zip(value, weights_11)) % 11 % 10
+    digit_12 = sum(int(digit) * weight for digit, weight in zip(value, weights_12)) % 11 % 10
+
+    return digit_11 == int(value[10]) and digit_12 == int(value[11])
+
+
+def validate_inn(value):
+    inn = normalize_inn(value)
+    if len(inn) == 10:
+        return validate_inn_ul(inn)
+    if len(inn) == 12:
+        return validate_inn_fl(inn)
+
+    return False
 
 
 class RequestForm(forms.Form):
