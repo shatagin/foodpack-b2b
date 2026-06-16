@@ -1,68 +1,104 @@
 <form method="post" class="{{ form_class|default:'request-form' }}" data-ajax-request-form novalidate>
     {% csrf_token %}
-<div class="form-alert form-alert-error" data-form-message {% if not form.non_field_errors %}hidden{% endif %}>
-    {% for error in form.non_field_errors %}
-        <span>{{ error }}</span>
-    {% endfor %}
-</div>
-    {{ form.non_field_errors }}
 
-    <div class="form-row">
+    <div class="form-alert form-alert-error" data-form-message {% if not form.non_field_errors %}hidden{% endif %}>
+        {% for error in form.non_field_errors %}
+            <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-row{% if form.category.errors %} has-error{% endif %}" data-field-row="category">
         <label for="{{ form.category.id_for_label }}">Категория продукции</label>
         {{ form.category }}
-        {{ form.category.errors }}
+        <div class="field-error" data-field-error="category">
+            {% for error in form.category.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row{% if form.company_name.errors %} has-error{% endif %}" data-field-row="company_name">
         <label for="{{ form.company_name.id_for_label }}">Компания</label>
         {{ form.company_name }}
-        {{ form.company_name.errors }}
+        <div class="field-error" data-field-error="company_name">
+            {% for error in form.company_name.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row{% if form.contact_person.errors %} has-error{% endif %}" data-field-row="contact_person">
         <label for="{{ form.contact_person.id_for_label }}">Контактное лицо</label>
         {{ form.contact_person }}
-        {{ form.contact_person.errors }}
+        <div class="field-error" data-field-error="contact_person">
+            {% for error in form.contact_person.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row{% if form.phone.errors %} has-error{% endif %}" data-field-row="phone">
         <label for="{{ form.phone.id_for_label }}">Телефон</label>
         {{ form.phone }}
-        {{ form.phone.errors }}
+        <div class="field-error" data-field-error="phone">
+            {% for error in form.phone.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row{% if form.email.errors %} has-error{% endif %}" data-field-row="email">
         <label for="{{ form.email.id_for_label }}">E-mail</label>
         {{ form.email }}
-        {{ form.email.errors }}
+        <div class="field-error" data-field-error="email">
+            {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
-    <details class="request-extra-fields">
+    <details class="request-extra-fields" {% if form.inn.errors or form.kpp.errors or form.address.errors %}open{% endif %}>
         <summary>Указать ИНН, КПП или адрес</summary>
 
-        <div class="form-row">
+        <div class="form-row{% if form.inn.errors %} has-error{% endif %}" data-field-row="inn">
             <label for="{{ form.inn.id_for_label }}">ИНН</label>
             {{ form.inn }}
-            {{ form.inn.errors }}
+            <div class="field-error" data-field-error="inn">
+                {% for error in form.inn.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-row{% if form.kpp.errors %} has-error{% endif %}" data-field-row="kpp">
             <label for="{{ form.kpp.id_for_label }}">КПП</label>
             {{ form.kpp }}
-            {{ form.kpp.errors }}
+            <div class="field-error" data-field-error="kpp">
+                {% for error in form.kpp.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-row{% if form.address.errors %} has-error{% endif %}" data-field-row="address">
             <label for="{{ form.address.id_for_label }}">Адрес</label>
             {{ form.address }}
-            {{ form.address.errors }}
+            <div class="field-error" data-field-error="address">
+                {% for error in form.address.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
         </div>
     </details>
 
-    <div class="form-row">
+    <div class="form-row{% if form.comment.errors %} has-error{% endif %}" data-field-row="comment">
         <label for="{{ form.comment.id_for_label }}">Комментарий</label>
         {{ form.comment }}
-        {{ form.comment.errors }}
+        <div class="field-error" data-field-error="comment">
+            {% for error in form.comment.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary btn-block">
