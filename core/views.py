@@ -47,14 +47,11 @@ def request_form_success_response(obj):
     )
 
 
-def process_request_form(request, success_url, category=None, product=None, use_selected_category=True):
+def process_request_form(request, success_url, category=None, product=None):
     form = RequestForm(request.POST)
 
     if form.is_valid():
-        selected_category = category
-
-        if use_selected_category:
-            selected_category = form.cleaned_data.get('category') or category
+        selected_category = form.cleaned_data.get('category') or category
 
         obj = create_request_from_form(
             form,
@@ -142,7 +139,6 @@ def category_detail(request, category_slug: str):
             request,
             category.get_absolute_url(),
             category=category,
-            use_selected_category=True,
         )
         if response:
             return response
@@ -167,7 +163,6 @@ def product_detail(request, category_slug: str, product_slug: str):
             product.get_absolute_url(),
             category=category,
             product=product,
-            use_selected_category=False,
         )
         if response:
             return response
@@ -238,16 +233,14 @@ def get_manager_group_for_category(category):
     if not category:
         return 'sales-manager'
 
-    category_text = f'{category.slug} {category.name}'.lower()
+    category_name = category.name.lower().replace('ё', 'е')
 
-    if 'komus' in category_text or 'комус' in category_text:
+    if 'комус' in category_name:
         return 'sales-manager-komus'
-
-    if 'film' in category_text or 'плен' in category_text:
-        return 'sales-manager-film'
-
-    if 'glove' in category_text or 'перчат' in category_text:
+    if 'перчат' in category_name:
         return 'sales-manager-gloves'
+    if 'плен' in category_name:
+        return 'sales-manager-film'
 
     return 'sales-manager'
 
@@ -280,7 +273,7 @@ def get_assigned_manager_for_category(category):
 def create_request_from_form(form, request, category=None, product=None):
     data = form.cleaned_data
 
-    selected_category = category or (product.category if product else data.get('category'))
+    selected_category = data.get('category') or category
     assigned_manager = get_assigned_manager_for_category(selected_category)
 
     client, created = Client.objects.get_or_create(
