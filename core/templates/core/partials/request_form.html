@@ -1,6 +1,9 @@
 <form method="post" class="{{ form_class|default:'request-form' }}" data-ajax-request-form novalidate>
     {% csrf_token %}
-
+<div class="form-extra-field" aria-hidden="true">
+    <label for="{{ form.middle_name.id_for_label }}">Отчество</label>
+    {{ form.middle_name }}
+</div>
     <div class="form-alert form-alert-error" data-form-message {% if not form.non_field_errors %}hidden{% endif %}>
         {% for error in form.non_field_errors %}
             <span>{{ error }}</span>

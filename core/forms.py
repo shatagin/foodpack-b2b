@@ -153,6 +153,14 @@ class RequestForm(forms.Form):
             'rows': 4,
         })
     )
+    middle_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'autocomplete': 'off',
+            'tabindex': '-1',
+            'class': 'form-extra-input',
+        })
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

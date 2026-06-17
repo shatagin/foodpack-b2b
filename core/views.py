@@ -37,20 +37,29 @@ def request_form_error_response(form):
     )
 
 
-def request_form_success_response(obj):
-    return JsonResponse(
-        {
-            'ok': True,
-            'message': REQUEST_SUCCESS_MESSAGE,
-            'request_id': obj.id,
-        }
-    )
+def request_form_success_response(obj=None):
+    data = {
+        'ok': True,
+        'message': REQUEST_SUCCESS_MESSAGE,
+    }
+
+    if obj is not None:
+        data['request_id'] = obj.id
+
+    return JsonResponse(data)
 
 
 def process_request_form(request, success_url, category=None, product=None):
     form = RequestForm(request.POST)
 
     if form.is_valid():
+        if form.cleaned_data.get('middle_name'):
+            if is_ajax_request(request):
+                return form, request_form_success_response()
+
+            add_request_success_message(request)
+            return form, redirect(success_url)
+
         selected_category = form.cleaned_data.get('category') or category
 
         obj = create_request_from_form(
