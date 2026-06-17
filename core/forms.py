@@ -80,6 +80,22 @@ def is_dns_check_failure(error):
     return 'There was an error while checking' in str(error)
 
 
+def validate_email_dns_records(domain):
+    try:
+        mx_records = list(dns.resolver.resolve(domain, 'MX', lifetime=5))
+    except dns.resolver.NXDOMAIN:
+        raise forms.ValidationError('Домен e-mail не существует.')
+    except dns.resolver.NoAnswer:
+        raise forms.ValidationError('У домена e-mail нет MX-записей для приема почты.')
+    except (dns.resolver.NoNameservers, dns.exception.Timeout, dns.exception.DNSException):
+        return False
+
+    if not mx_records:
+        raise forms.ValidationError('У домена e-mail нет MX-записей для приема почты.')
+
+    return True
+
+
 class RequestForm(forms.Form):
     category = forms.ModelChoiceField(
         label='Категория продукции',
@@ -166,26 +182,11 @@ class RequestForm(forms.Form):
             return ''
 
         try:
-            result = validate_email(
-                email,
-                check_deliverability=True,
-                timeout=5,
-            )
-        except EmailUndeliverableError as exc:
-            if is_dns_check_failure(exc):
-                try:
-                    result = validate_email(
-                        email,
-                        check_deliverability=False,
-                    )
-                except EmailNotValidError:
-                    raise forms.ValidationError('Введите корректный e-mail.')
-
-                return result.normalized
-
-            raise forms.ValidationError('Введите существующий e-mail с корректным доменом.')
+            result = validate_email(email, check_deliverability=False)
         except EmailNotValidError:
             raise forms.ValidationError('Введите корректный e-mail.')
+
+        validate_email_dns_records(result.domain)
 
         return result.normalized
 
