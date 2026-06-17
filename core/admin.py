@@ -99,6 +99,12 @@ class RequestAdmin(admin.ModelAdmin):
         'assigned_manager',
     )
 
+    actions = (
+        'mark_as_in_progress',
+        'mark_as_done',
+        'assign_to_current_manager',
+    )
+
     fieldsets = (
         ('Заявка', {
             'fields': (
@@ -129,6 +135,82 @@ class RequestAdmin(admin.ModelAdmin):
             )
         }),
     )
+
+    def _bulk_update_status(self, request, queryset, status_code, fallback_status, message):
+        status_defaults = {
+            Request.STATUS_IN_PROGRESS: {
+                'name': 'В работе',
+                'is_initial': False,
+                'is_final': False,
+                'sort_order': 20,
+                'color': 'warning',
+                'is_active': True,
+            },
+            Request.STATUS_DONE: {
+                'name': 'Закрыта',
+                'is_initial': False,
+                'is_final': True,
+                'sort_order': 30,
+                'color': 'success',
+                'is_active': True,
+            },
+        }
+
+        request_status, created = RequestStatus.objects.get_or_create(
+            code=status_code,
+            defaults=status_defaults[fallback_status],
+        )
+
+        if not request_status.is_active:
+            request_status.is_active = True
+            request_status.save(update_fields=['is_active'])
+
+        updated_count = 0
+
+        for obj in queryset.select_related('request_status'):
+            old_status = obj.request_status
+
+            obj.request_status = request_status
+            obj.status = fallback_status
+            obj.save(update_fields=['request_status', 'status'])
+
+            if old_status is None or old_status.id != request_status.id:
+                RequestStatusLog.objects.create(
+                    request=obj,
+                    old_status=old_status,
+                    new_status=request_status,
+                    comment=message,
+                    change_reason=f'Массовое действие в админ-панели. Пользователь: {request.user.get_username()}',
+                )
+
+            updated_count += 1
+
+        self.message_user(request, f'Обработано заявок: {updated_count}.')
+
+    @admin.action(description='Перевести выбранные заявки в работу')
+    def mark_as_in_progress(self, request, queryset):
+        self._bulk_update_status(
+            request,
+            queryset,
+            status_code='in_progress',
+            fallback_status=Request.STATUS_IN_PROGRESS,
+            message='Заявка переведена в работу через массовое действие',
+        )
+
+    @admin.action(description='Закрыть выбранные заявки')
+    def mark_as_done(self, request, queryset):
+        self._bulk_update_status(
+            request,
+            queryset,
+            status_code='done',
+            fallback_status=Request.STATUS_DONE,
+            message='Заявка закрыта через массовое действие',
+        )
+
+    @admin.action(description='Назначить выбранные заявки на текущего пользователя')
+    def assign_to_current_manager(self, request, queryset):
+        updated_count = queryset.update(assigned_manager=request.user)
+        self.message_user(request, f'Назначено заявок: {updated_count}.')
 
     def save_model(self, request, obj, form, change):
         old_status = None
