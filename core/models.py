@@ -177,6 +177,16 @@ class Request(models.Model):
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
         ordering = ['-created_at']
+        indexes = [
+            models.Index(
+                fields=['request_status', '-created_at'],
+                name='req_status_created_idx',
+            ),
+            models.Index(
+                fields=['assigned_manager', '-created_at'],
+                name='req_manager_created_idx',
+            ),
+        ]
 
     def __str__(self) -> str:
         return f'Заявка #{self.id} — {self.name}'
