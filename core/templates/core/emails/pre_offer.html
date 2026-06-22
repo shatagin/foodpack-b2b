@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<body>
+    <p>Здравствуйте{% if request_obj.client.contact_person %}, {{ request_obj.client.contact_person }}{% endif %}!</p>
+    <p>
+        Благодарим за обращение в {{ company_name }}.
+        Мы получили вашу заявку №{{ request_obj.id }}.
+    </p>
+    <h3>Предварительная информация по заявке</h3>
+    <ul>
+        <li>Компания: {{ request_obj.client.company_name }}</li>
+        <li>Категория: {{ request_obj.category|default:"уточняется" }}</li>
+        {% if request_obj.product %}
+            <li>Товар: {{ request_obj.product }}</li>
+        {% endif %}
+        <li>Номер заявки: {{ request_obj.id }}</li>
+    </ul>
+    <p>
+        Менеджер уточнит технические требования, объём заказа,
+        сроки поставки и подготовит персональное коммерческое предложение
+        с ассортиментом и ценами.
+    </p>
+    <h3>Ваш менеджер</h3>
+    <p>
+        {{ manager_name }}<br>
+        Телефон: {{ manager_phone }}<br>
+        {% if manager_email %}
+            E-mail: {{ manager_email }}
+        {% endif %}
+    </p>
+    <p>С уважением,<br>{{ company_name }}</p>
+</body>
+</html>

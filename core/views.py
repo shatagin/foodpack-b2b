@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from .forms import RequestForm
 from .models import Category, Client, NewsPost, Product, Request, RequestStatus, RequestStatusLog
 
+from django.db import transaction
+from .services import send_preliminary_offer
+
 
 REQUEST_SUCCESS_MESSAGE = 'Заявка успешно отправлена. Менеджер свяжется с вами в ближайшее время.'
 REQUEST_ERROR_MESSAGE = 'Проверьте корректность заполнения формы.'
@@ -67,6 +70,10 @@ def process_request_form(request, success_url, category=None, product=None):
             request,
             category=selected_category,
             product=product,
+        )
+
+        transaction.on_commit(
+            lambda request_id=obj.id: send_preliminary_offer(request_id)
         )
 
         if is_ajax_request(request):

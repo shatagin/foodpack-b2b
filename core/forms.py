@@ -122,7 +122,7 @@ class RequestForm(forms.Form):
     )
     email = forms.EmailField(
         label='E-mail',
-        required=False,
+        required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'you@company.ru'})
     )
     inn = forms.CharField(
